@@ -1,11 +1,12 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, AlertTriangle, PhoneCall, Copy, Clock, MapPin, Building2, ChevronDown, Flag, Info, Send, FileWarning } from 'lucide-react';
+import { Search, AlertTriangle, PhoneCall, Copy, Clock, MapPin, Building2, ChevronDown, Flag, Info, Send, FileWarning, Mic } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function EscalationPage() {
   const [accordionOpen, setAccordionOpen] = useState(true);
+  const [isListening, setIsListening] = useState(false);
   
   return (
     <div className="flex w-full h-full bg-slate-50">
@@ -23,12 +24,31 @@ export default function EscalationPage() {
             <div className="relative">
               <input 
                 type="text" 
-                className="w-full text-lg pl-4 pr-12 py-3.5 border-2 border-[#005696] rounded-xl focus:outline-none focus:ring-4 focus:ring-[#005696]/10 transition-all bg-white shadow-sm font-medium text-slate-900"
-                value="kandy rto billing section number ekak danna"
+                className={`w-full text-lg pl-4 pr-32 py-3.5 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all bg-white shadow-sm font-medium ${
+                  isListening 
+                    ? 'border-[#00A3E0] focus:ring-[#00A3E0]/20 text-[#005696]' 
+                    : 'border-[#005696] focus:ring-[#005696]/10 text-slate-900'
+                }`}
+                value={isListening ? "Listening... Speak now" : "kandy rto billing section number ekak danna"}
                 readOnly
               />
-              <div className="absolute right-3 top-3 px-2 py-1 bg-[#e0f4fc] text-[#005696] text-xs font-semibold rounded border border-cyan-200">
-                Singlish
+              <div className="absolute right-3 top-2.5 flex items-center gap-2">
+                <button 
+                  onClick={() => setIsListening(!isListening)}
+                  className={`p-2 rounded-lg transition-all flex items-center justify-center ${
+                    isListening 
+                      ? 'bg-rose-50 text-rose-600 animate-pulse border border-rose-200' 
+                      : 'bg-slate-50 text-slate-400 hover:text-[#005696] hover:bg-[#e0f4fc] border border-transparent'
+                  }`}
+                  title="Voice Search (Sinhala/Tamil/English)"
+                >
+                  <Mic className="w-5 h-5" />
+                </button>
+                {!isListening && (
+                  <div className="px-2 py-1 bg-[#e0f4fc] text-[#005696] text-xs font-semibold rounded border border-cyan-200">
+                    Singlish
+                  </div>
+                )}
               </div>
             </div>
             

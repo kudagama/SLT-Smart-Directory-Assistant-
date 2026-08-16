@@ -1,7 +1,7 @@
 "use client";
 
-import React from 'react';
-import { Search, Database, ShieldAlert, CheckCircle, Clock, MoreVertical, Filter, Download, ArrowUpRight, Activity, TrendingUp, AlertTriangle, Plus, Server } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Database, ShieldAlert, CheckCircle, Clock, MoreVertical, Filter, Download, ArrowUpRight, Activity, TrendingUp, AlertTriangle, Plus, Server, Mic } from 'lucide-react';
 
 const KPI_DATA = [
   { label: 'Total Verified Numbers', value: '14,820', delta: '+124', icon: Database, color: 'text-emerald-400', isPositive: true },
@@ -19,6 +19,8 @@ const DIRECTORY_DATA = [
 ];
 
 export default function AdminPage() {
+  const [isListening, setIsListening] = useState(false);
+
   return (
     <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-[#0F172A] text-slate-200">
       <div className="max-w-[1600px] mx-auto space-y-6">
@@ -30,13 +32,27 @@ export default function AdminPage() {
             <p className="text-sm text-slate-400 mt-1">Manage core directory schemas and vector embeddings.</p>
           </div>
           <div className="flex gap-3">
-            <div className="relative w-64 hidden md:block">
+            <div className="relative w-72 hidden md:block group">
               <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
               <input 
                 type="text" 
-                placeholder="Global search..." 
-                className="w-full pl-9 pr-4 py-2 bg-[#1E293B] border border-slate-700/50 rounded-lg text-sm focus:outline-none focus:border-[#00A3E0] focus:ring-1 focus:ring-[#00A3E0] transition-all text-slate-200 placeholder-slate-500"
+                placeholder={isListening ? "Listening..." : "Global search..."}
+                className={`w-full pl-9 pr-10 py-2 bg-[#1E293B] border rounded-lg text-sm focus:outline-none transition-all text-slate-200 placeholder-slate-500 ${
+                  isListening 
+                    ? 'border-[#00A3E0] ring-1 ring-[#00A3E0] text-[#00A3E0]' 
+                    : 'border-slate-700/50 focus:border-[#00A3E0] focus:ring-1 focus:ring-[#00A3E0]'
+                }`}
               />
+              <button 
+                onClick={() => setIsListening(!isListening)}
+                className={`absolute right-2 top-1.5 p-1 rounded transition-colors ${
+                  isListening 
+                    ? 'text-rose-400 bg-rose-400/10 animate-pulse' 
+                    : 'text-slate-500 hover:text-[#00A3E0] hover:bg-[#0F172A]'
+                }`}
+              >
+                <Mic className="w-4 h-4" />
+              </button>
             </div>
             <button className="px-4 py-2 bg-[#00A3E0] text-white rounded-lg text-sm font-semibold hover:bg-[#008bc0] transition-colors shadow-[0_0_15px_rgba(0,163,224,0.2)] flex items-center gap-2">
               <Plus className="w-4 h-4" />

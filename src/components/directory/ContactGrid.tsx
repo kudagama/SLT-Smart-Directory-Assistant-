@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Copy, PhoneCall, AlertTriangle, CheckCircle2, Clock, MapPin, Building2, ChevronDown, Flag } from 'lucide-react';
+import { Copy, PhoneCall, AlertTriangle, CheckCircle2, Clock, MapPin, Building2, ChevronDown, Flag, Mic } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const MOCK_CONTACTS = [
@@ -50,6 +50,8 @@ const MOCK_CONTACTS = [
 ];
 
 export default function ContactGrid() {
+  const [isListening, setIsListening] = useState(false);
+
   return (
     <div className="flex-1 flex flex-col min-w-0 bg-slate-50/50">
       {/* Search Header & Chips */}
@@ -58,12 +60,31 @@ export default function ContactGrid() {
         <div className="relative mb-4 group">
           <input 
             type="text" 
-            className="w-full text-lg pl-4 pr-12 py-3.5 border-2 border-slate-200 rounded-xl focus:outline-none focus:border-[#005696] focus:ring-4 focus:ring-[#005696]/10 transition-all bg-white shadow-sm font-medium placeholder-slate-400"
-            placeholder="Search by branch name, hotline, emergency, department, or mixed Sinhala/Tamil queries..."
-            defaultValue="Kandy"
+            className={`w-full text-lg pl-4 pr-24 py-3.5 border-2 rounded-xl focus:outline-none focus:ring-4 transition-all bg-white shadow-sm font-medium placeholder-slate-400 ${
+              isListening 
+                ? 'border-[#00A3E0] focus:ring-[#00A3E0]/20 text-[#005696]' 
+                : 'border-slate-200 focus:border-[#005696] focus:ring-[#005696]/10'
+            }`}
+            placeholder={isListening ? "Listening... Speak now (Sinhala/Tamil/English)" : "Search by branch name, hotline, emergency, department, or mixed Sinhala/Tamil queries..."}
+            defaultValue={isListening ? "" : "Kandy"}
           />
-          <div className="absolute right-3 top-3 px-2 py-1 bg-slate-100 text-slate-400 text-xs font-semibold rounded border border-slate-200">
-            Enter ↵
+          <div className="absolute right-3 top-2.5 flex items-center gap-2">
+            <button 
+              onClick={() => setIsListening(!isListening)}
+              className={`p-2 rounded-lg transition-all flex items-center justify-center ${
+                isListening 
+                  ? 'bg-rose-50 text-rose-600 animate-pulse border border-rose-200' 
+                  : 'bg-slate-50 text-slate-400 hover:text-[#005696] hover:bg-[#e0f4fc] border border-transparent'
+              }`}
+              title="Voice Search (Sinhala/Tamil/English)"
+            >
+              <Mic className="w-5 h-5" />
+            </button>
+            {!isListening && (
+              <div className="px-2 py-1 bg-slate-100 text-slate-400 text-xs font-semibold rounded border border-slate-200 hidden sm:block">
+                Enter ↵
+              </div>
+            )}
           </div>
         </div>
         
