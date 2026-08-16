@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Bot, Sparkles, AlertCircle, Phone, Copy } from 'lucide-react';
+import { Bot, Sparkles, AlertCircle, Phone, Copy, CheckCircle2, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function CopilotChat() {
@@ -22,9 +22,12 @@ export default function CopilotChat() {
         {/* User Query Log */}
         <div className="flex flex-col items-end">
           <div className="bg-[#005696] text-white px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[85%] text-sm shadow-sm">
-            I need the hotline for Kandy General Hospital and the local RTO number.
+            mata tharindu perera, 269 vidyachanda mawatha ahangama inne eyge mobile number eka denna
           </div>
-          <span className="text-[10px] text-slate-400 mt-1 mr-1">10:24 AM</span>
+          <span className="text-[10px] text-slate-400 mt-1 mr-1 flex items-center gap-1">
+            <span className="px-1.5 py-0.5 bg-slate-100 rounded text-slate-500 font-medium">Singlish Audio</span> 
+            11:12 AM
+          </span>
         </div>
 
         {/* AI Response */}
@@ -34,39 +37,38 @@ export default function CopilotChat() {
           className="flex flex-col items-start"
         >
           <div className="bg-slate-100 border border-slate-200 text-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[95%] text-sm shadow-sm">
-            <p className="mb-2">Here are the verified contacts for Kandy General Hospital and the Kandy Regional Telecom Office:</p>
+            <p className="mb-2">Here is the contact information matching <span className="font-semibold">Tharindu Perera</span> in <span className="font-semibold">Ahangama</span>:</p>
             
             <div className="space-y-2 mt-3">
-              <div className="bg-white p-2.5 rounded border border-slate-200 shadow-sm">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-semibold text-slate-700">Kandy General Hospital</span>
-                  <span className="text-[10px] flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">99% Verified</span>
+              <div className="bg-white p-3 rounded border border-[#005696]/20 shadow-sm relative overflow-hidden">
+                <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#00A3E0]"></div>
+                <div className="flex items-center justify-between mb-2 pl-2">
+                  <span className="text-sm font-bold text-slate-900">Tharindu Perera</span>
+                  <span className="text-[10px] flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
+                    <CheckCircle2 className="w-3 h-3 mr-1" /> Verified Resident
+                  </span>
                 </div>
-                <div className="flex items-center justify-between group">
-                  <span className="text-sm font-bold tabular-nums text-slate-900">081 2 222 222</span>
-                  <button className="text-slate-400 hover:text-[#005696] transition-colors p-1" title="Copy">
-                    <Copy className="w-3.5 h-3.5" />
-                  </button>
+                
+                <div className="pl-2 mb-3 text-xs text-slate-600 flex items-start gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-slate-400" />
+                  <span>269, Vidyachanda Mawatha,<br/>Ahangama, Southern Province</span>
                 </div>
-              </div>
 
-              <div className="bg-white p-2.5 rounded border border-slate-200 shadow-sm">
-                <div className="flex items-center justify-between mb-1">
-                  <span className="text-xs font-semibold text-slate-700">SLT RTO - Kandy</span>
-                  <span className="text-[10px] flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">100% Verified</span>
-                </div>
-                <div className="flex items-center justify-between group">
-                  <span className="text-sm font-bold tabular-nums text-slate-900">081 2 233 233</span>
-                  <button className="text-slate-400 hover:text-[#005696] transition-colors p-1" title="Copy">
+                <div className="flex items-center justify-between group bg-slate-50 p-2 rounded border border-slate-100 ml-2">
+                  <div className="flex items-center gap-2">
+                    <Phone className="w-4 h-4 text-slate-400" />
+                    <span className="text-base font-bold tabular-nums text-slate-900 tracking-tight">071 3 452 890</span>
+                  </div>
+                  <button className="text-slate-400 hover:text-[#005696] transition-colors p-1.5 bg-white border border-slate-200 rounded shadow-sm group-hover:border-[#005696]/30" title="Copy">
                     <Copy className="w-3.5 h-3.5" />
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="mt-3 flex items-start gap-1.5 p-2 bg-amber-50 rounded border border-amber-100 text-xs text-amber-800">
-              <AlertCircle className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-              <p>Note: The RTO is currently on lunch break until 1:00 PM.</p>
+            <div className="mt-3 flex items-start gap-1.5 p-2 bg-blue-50 rounded border border-blue-100 text-xs text-[#005696]">
+              <Sparkles className="w-3.5 h-3.5 shrink-0 mt-0.5" />
+              <p>Found this match with 98% confidence based on name and address similarity.</p>
             </div>
           </div>
           <span className="text-[10px] text-slate-400 mt-1 ml-1 flex items-center gap-1">
