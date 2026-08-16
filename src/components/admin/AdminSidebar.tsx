@@ -17,8 +17,8 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-[#0F172A] border-r border-[#1E293B] flex flex-col h-full shrink-0">
-      <div className="h-16 flex items-center px-6 border-b border-[#1E293B]">
+    <aside className="w-full md:w-64 bg-[#0F172A] border-b md:border-b-0 md:border-r border-[#1E293B] flex flex-col shrink-0">
+      <div className="h-16 flex items-center px-4 md:px-6 border-b border-[#1E293B]">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-[#00A3E0] rounded flex items-center justify-center text-white font-bold tracking-tighter shadow-[0_0_10px_rgba(0,163,224,0.3)]">
             SLT
@@ -27,7 +27,7 @@ export default function AdminSidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 overflow-y-auto py-6 px-4 space-y-1">
+      <nav className="flex-none md:flex-1 overflow-x-auto md:overflow-y-auto flex md:flex-col py-3 md:py-6 px-4 space-x-2 md:space-x-0 md:space-y-1 scrollbar-hide">
         {navItems.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
@@ -35,7 +35,7 @@ export default function AdminSidebar() {
             <Link
               key={item.name}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+              className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all whitespace-nowrap ${
                 isActive 
                   ? 'bg-[#00A3E0]/10 text-[#00A3E0] border border-[#00A3E0]/20' 
                   : 'text-slate-400 hover:text-slate-200 hover:bg-[#1E293B]'
@@ -48,7 +48,7 @@ export default function AdminSidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-[#1E293B]">
+      <div className="hidden md:block p-4 border-t border-[#1E293B]">
         <div className="flex items-center justify-between px-3 py-2 bg-[#1E293B] rounded-lg">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded bg-slate-700 flex items-center justify-center text-xs font-bold text-slate-300">

@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 
 export default function CopilotChat() {
   return (
-    <div className="flex flex-col h-full bg-white border-r border-slate-200 w-full lg:w-[380px] xl:w-[420px] shrink-0 overflow-hidden">
+    <div className="flex flex-col h-[50vh] lg:h-full bg-white border-b lg:border-b-0 lg:border-r border-slate-200 w-full lg:w-[380px] xl:w-[420px] shrink-0 overflow-hidden">
       <div className="p-4 border-b border-slate-200 bg-slate-50/50 flex items-center justify-between">
         <h2 className="text-sm font-semibold text-slate-800 flex items-center gap-2">
           <Bot className="w-4 h-4 text-[#005696]" />

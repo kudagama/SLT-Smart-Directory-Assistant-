@@ -9,12 +9,12 @@ export default function EscalationPage() {
   const [isListening, setIsListening] = useState(false);
   
   return (
-    <div className="flex w-full h-full bg-slate-50">
+    <div className="flex w-full h-[calc(100vh-3.5rem)] bg-slate-50 overflow-y-auto lg:overflow-hidden">
       {/* 3-Column Layout Container */}
-      <div className="flex flex-col lg:flex-row w-full max-w-[1600px] mx-auto p-4 sm:p-6 gap-6 h-full overflow-hidden">
+      <div className="flex flex-col lg:flex-row w-full max-w-[1600px] mx-auto p-4 sm:p-6 gap-6 min-h-min lg:h-full lg:overflow-hidden">
         
         {/* Left Column: Search & Context */}
-        <div className="flex-1 flex flex-col min-w-0 max-w-2xl gap-6 overflow-y-auto">
+        <div className="flex-1 flex flex-col min-w-0 max-w-2xl gap-6 lg:overflow-y-auto">
           {/* Main Search Omnibox */}
           <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
             <h2 className="text-sm font-semibold text-slate-800 mb-3 flex items-center gap-2">
