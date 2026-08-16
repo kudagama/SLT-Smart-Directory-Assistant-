@@ -9,12 +9,15 @@ export default function TopNavigation() {
   const [language, setLanguage] = useState('EN');
   const pathname = usePathname();
   const isEscalation = pathname === '/escalation';
+  const isAdmin = pathname?.startsWith('/admin');
 
   const toggleLanguage = () => {
     const langs = ['EN', 'SI', 'TA'];
     const nextIndex = (langs.indexOf(language) + 1) % langs.length;
     setLanguage(langs[nextIndex]);
   };
+
+  if (isAdmin) return null;
 
   return (
     <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 shadow-sm z-10 shrink-0">
