@@ -99,14 +99,14 @@ export default function CopilotChat() {
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto scroll-smooth z-10 pb-40">
-        <div className="max-w-4xl mx-auto p-6 md:p-10 space-y-10">
+        <div className="max-w-4xl mx-auto p-4 sm:p-6 md:p-10 space-y-6 md:space-y-10">
           
-          <div className="text-center mb-10 pt-10">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-[#005696] to-[#00A3E0] mx-auto flex items-center justify-center shadow-xl shadow-blue-500/20 mb-4">
-              <Bot className="w-8 h-8 text-white" />
+          <div className="text-center mb-8 md:mb-10 pt-6 md:pt-10">
+            <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-gradient-to-br from-[#005696] to-[#00A3E0] mx-auto flex items-center justify-center shadow-xl shadow-blue-500/20 mb-4">
+              <Bot className="w-7 h-7 md:w-8 md:h-8 text-white" />
             </div>
-            <h2 className="text-3xl font-black text-slate-800 mb-3 tracking-tight">How can I help you today?</h2>
-            <p className="text-sm text-slate-500 font-medium">Search for branches, hotlines, employees, or specific departments.</p>
+            <h2 className="text-2xl md:text-3xl font-black text-slate-800 mb-2 md:mb-3 tracking-tight">How can I help you today?</h2>
+            <p className="text-xs md:text-sm text-slate-500 font-medium">Search for branches, hotlines, employees, or specific departments.</p>
           </div>
 
           <AnimatePresence>
@@ -124,15 +124,15 @@ export default function CopilotChat() {
                   </div>
                 )}
 
-                <div className={`flex flex-col ${msg.type === 'user' ? 'items-end' : 'items-start'} max-w-[85%]`}>
+                <div className={`flex flex-col ${msg.type === 'user' ? 'items-end' : 'items-start'} max-w-[95%] sm:max-w-[85%]`}>
                   {msg.type === 'user' ? (
-                    <div className="bg-slate-800 text-white px-6 py-4 rounded-3xl rounded-tr-sm text-[15px] shadow-sm font-medium leading-relaxed">
+                    <div className="bg-slate-800 text-white px-5 sm:px-6 py-3 sm:py-4 rounded-3xl rounded-tr-sm text-sm sm:text-[15px] shadow-sm font-medium leading-relaxed break-words">
                       {msg.text}
                     </div>
                   ) : (
                     <div className="w-full">
-                      <div className="bg-white border border-slate-200/70 p-6 rounded-3xl rounded-tl-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-slate-800">
-                        <p className="text-[15px] font-medium leading-relaxed">
+                      <div className="bg-white border border-slate-200/70 p-5 sm:p-6 rounded-3xl rounded-tl-sm shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-slate-800">
+                        <p className="text-sm sm:text-[15px] font-medium leading-relaxed">
                           {msg.text}
                         </p>
                         
@@ -230,9 +230,9 @@ export default function CopilotChat() {
       </div>
 
       {/* Input Area (Floating) */}
-      <div className="absolute bottom-0 inset-x-0 p-6 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA] to-transparent pt-24 z-20">
+      <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 bg-gradient-to-t from-[#FAFAFA] via-[#FAFAFA] to-transparent pt-24 z-20">
         <div className="max-w-3xl mx-auto">
-          <div className="relative bg-white rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-slate-200/80 focus-within:ring-4 focus-within:ring-[#00A3E0]/10 focus-within:border-[#00A3E0]/30 transition-all flex flex-col">
+          <div className="relative bg-white rounded-2xl sm:rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-slate-200/80 focus-within:ring-4 focus-within:ring-[#00A3E0]/10 focus-within:border-[#00A3E0]/30 transition-all flex flex-col">
             <div className="flex items-end px-2 py-2">
               <button 
                 onClick={() => setIsListening(!isListening)}
@@ -254,8 +254,8 @@ export default function CopilotChat() {
                     handleSearch();
                   }
                 }}
-                className="w-full bg-transparent py-4 px-2 text-[15px] font-medium focus:outline-none resize-none max-h-32 min-h-[56px] placeholder-slate-400 self-center scroll-smooth"
-                placeholder={isListening ? "Listening... Speak now (Sinhala/Tamil/English)" : "Ask anything about directory contacts..."}
+                className="w-full bg-transparent py-3 md:py-4 px-2 text-sm md:text-[15px] font-medium focus:outline-none resize-none max-h-32 min-h-[50px] md:min-h-[56px] placeholder-slate-400 self-center overflow-y-auto"
+                placeholder={isListening ? "Listening..." : "Ask about contacts..."}
                 rows={1}
               />
               <div className="p-1 shrink-0 self-end mb-1">
