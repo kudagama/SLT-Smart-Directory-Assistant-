@@ -14,11 +14,7 @@ export default function LoginPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-    // Simulate network request
-    setTimeout(() => {
-      router.push('/dashboard');
-    }, 1500);
+    router.push('/dashboard');
   };
 
   return (
@@ -111,7 +107,6 @@ export default function LoginPage() {
                 </div>
                 <input
                   type="text"
-                  required
                   value={agentId}
                   onChange={(e) => setAgentId(e.target.value)}
                   className="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005696]/20 focus:border-[#005696] transition-all shadow-sm font-medium text-slate-800 placeholder-slate-400"
@@ -131,7 +126,6 @@ export default function LoginPage() {
                 </div>
                 <input
                   type="password"
-                  required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full pl-11 pr-4 py-3.5 bg-white border border-slate-200/80 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#005696]/20 focus:border-[#005696] transition-all shadow-sm font-medium text-slate-800 placeholder-slate-400"
