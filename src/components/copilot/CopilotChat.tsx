@@ -95,24 +95,7 @@ export default function CopilotChat() {
       <div className="absolute -top-48 -right-48 w-96 h-96 bg-cyan-200/20 rounded-full blur-3xl pointer-events-none -z-0"></div>
       <div className="absolute top-1/3 -left-24 w-72 h-72 bg-blue-300/10 rounded-full blur-3xl pointer-events-none -z-0"></div>
 
-      {/* Header */}
-      <header className="px-8 py-5 flex items-center justify-between z-10 bg-white/60 backdrop-blur-xl border-b border-slate-200/50 sticky top-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#005696] to-[#00A3E0] flex items-center justify-center shadow-lg shadow-blue-500/20">
-            <Bot className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <h1 className="text-base font-extrabold text-slate-800 tracking-tight">Agent AI Copilot</h1>
-            <p className="text-xs font-medium text-slate-500">Enterprise Directory Assistant</p>
-          </div>
-        </div>
-        <div className="flex items-center gap-3">
-          <span className="text-xs bg-white text-emerald-600 border border-emerald-100 px-3 py-1.5 rounded-full font-bold flex items-center gap-1.5 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" />
-            Active Context
-          </span>
-        </div>
-      </header>
+
 
       {/* Chat Area */}
       <div className="flex-1 overflow-y-auto scroll-smooth z-10 pb-40">
