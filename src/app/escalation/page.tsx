@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Search, AlertTriangle, PhoneCall, Copy, Clock, MapPin, Building2, ChevronDown, Flag, Info, Send, FileWarning, Mic } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 
 export default function EscalationPage() {
   const [accordionOpen, setAccordionOpen] = useState(true);
@@ -206,9 +207,9 @@ export default function EscalationPage() {
                 <Send className="w-4 h-4" />
                 Route to Level-2 Support
               </button>
-              <button className="w-full py-3 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-50 transition-colors shadow-sm">
+              <Link href="/dashboard" className="w-full py-3 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-bold hover:bg-slate-50 transition-colors shadow-sm flex items-center justify-center">
                 Cancel / Return to Search
-              </button>
+              </Link>
             </div>
           </div>
         </div>

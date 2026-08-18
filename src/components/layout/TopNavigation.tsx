@@ -10,6 +10,7 @@ export default function TopNavigation() {
   const pathname = usePathname();
   const isEscalation = pathname === '/escalation';
   const isAdmin = pathname?.startsWith('/admin');
+  const isLogin = pathname === '/';
 
   const toggleLanguage = () => {
     const langs = ['EN', 'SI', 'TA'];
@@ -17,15 +18,15 @@ export default function TopNavigation() {
     setLanguage(langs[nextIndex]);
   };
 
-  if (isAdmin) return null;
+  if (isAdmin || isLogin) return null;
 
   return (
     <header className="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-6 shadow-sm z-10 shrink-0">
       {/* Left: Branding & Status */}
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 bg-[#005696] rounded-md flex items-center justify-center text-white font-bold tracking-tighter">
+        <Link href="/dashboard" className="w-8 h-8 bg-[#005696] rounded-md flex items-center justify-center text-white font-bold tracking-tighter hover:bg-[#00407a] transition-colors">
           SLT
-        </div>
+        </Link>
         <div>
           <h1 className="text-sm font-bold text-slate-900 leading-tight">Smart Directory</h1>
           <p className="text-[10px] text-slate-500 font-medium leading-none">Contact Center Assistant</p>
@@ -75,7 +76,7 @@ export default function TopNavigation() {
       <div className="flex items-center gap-3 sm:gap-4">
         {/* Navigation Links */}
         <nav className="hidden md:flex items-center gap-4 mr-2">
-          <Link href="/" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
+          <Link href="/dashboard" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
             <Search className="w-4 h-4" />
             Directory
           </Link>
@@ -101,16 +102,16 @@ export default function TopNavigation() {
           <span className="w-4 text-center">{language}</span>
         </button>
 
-        {/* Agent Profile */}
-        <button className="flex items-center gap-2 pl-2 border-l border-slate-200 group">
+        {/* Agent Profile / Logout */}
+        <Link href="/" className="flex items-center gap-2 pl-2 border-l border-slate-200 group" title="Sign Out">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-semibold text-slate-700 leading-none group-hover:text-[#005696] transition-colors">A. Perera</p>
-            <p className="text-[10px] text-slate-500 mt-0.5 font-mono">ID: 8492-SLT</p>
+            <p className="text-xs font-semibold text-slate-700 leading-none group-hover:text-rose-600 transition-colors">A. Perera</p>
+            <p className="text-[10px] text-slate-500 mt-0.5 font-mono">Sign Out</p>
           </div>
-          <div className="w-8 h-8 rounded-full bg-[#e0f4fc] border border-cyan-100 flex items-center justify-center text-[#005696]">
+          <div className="w-8 h-8 rounded-full bg-[#e0f4fc] border border-cyan-100 flex items-center justify-center text-[#005696] group-hover:bg-rose-50 group-hover:text-rose-600 group-hover:border-rose-100 transition-colors">
             <User className="w-4 h-4" />
           </div>
-        </button>
+        </Link>
       </div>
     </header>
   );
