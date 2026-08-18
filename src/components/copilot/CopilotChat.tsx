@@ -17,6 +17,7 @@ interface Message {
 export default function CopilotChat() {
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [isListening, setIsListening] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   const [messages, setMessages] = useState<Message[]>([
@@ -250,7 +251,15 @@ export default function CopilotChat() {
         <div className="max-w-3xl mx-auto">
           <div className="relative bg-white rounded-[24px] shadow-[0_8px_30px_rgba(0,0,0,0.08)] border border-slate-200/80 focus-within:ring-4 focus-within:ring-[#00A3E0]/10 focus-within:border-[#00A3E0]/30 transition-all flex flex-col">
             <div className="flex items-end px-2 py-2">
-              <button className="p-3 text-slate-400 hover:text-[#005696] hover:bg-blue-50 rounded-xl transition-colors shrink-0 mb-1">
+              <button 
+                onClick={() => setIsListening(!isListening)}
+                className={`p-3 rounded-xl transition-colors shrink-0 mb-1 flex items-center justify-center ${
+                  isListening 
+                    ? 'text-rose-500 bg-rose-50 animate-pulse shadow-inner' 
+                    : 'text-slate-400 hover:text-[#005696] hover:bg-blue-50'
+                }`}
+                title="Voice Search"
+              >
                 <Mic className="w-5 h-5" />
               </button>
               <textarea
@@ -263,7 +272,7 @@ export default function CopilotChat() {
                   }
                 }}
                 className="w-full bg-transparent py-4 px-2 text-[15px] font-medium focus:outline-none resize-none max-h-32 min-h-[56px] placeholder-slate-400 self-center scroll-smooth"
-                placeholder="Ask anything about directory contacts..."
+                placeholder={isListening ? "Listening... Speak now (Sinhala/Tamil/English)" : "Ask anything about directory contacts..."}
                 rows={1}
               />
               <div className="p-1 shrink-0 self-end mb-1">
