@@ -25,11 +25,11 @@ export async function POST(request: Request) {
       if (results.length > 0) {
         const [doc, score] = results[0];
         
-        // 2. Augment the context and pass to the LLM for natural language response
-        const chat = new ChatGoogleGenerativeAI({ modelName: 'gemini-1.5-flash', temperature: 0 });
+        const chat = new ChatGoogleGenerativeAI({ model: 'gemini-3.5-flash', temperature: 0 });
+        const systemPrompt = `You are a highly efficient Sri Lanka Telecom (SLT) Contact Center AI Assistant. You must answer the user's query in a professional, brief manner using ONLY the provided context. If they speak Singlish or Sinhala, reply back in the same language or English.\n\nContext Data (Use this to answer):\n${doc.pageContent}\nContact Number: ${doc.metadata.hotline}\nLocation: ${doc.metadata.location}`;
+
         const aiResponse = await chat.invoke([
-          ["system", "You are a highly efficient Sri Lanka Telecom (SLT) Contact Center AI Assistant. You must answer the user's query in a professional, brief manner using ONLY the provided context. If they speak Singlish or Sinhala, reply back in the same language or English."],
-          ["system", `Context Data (Use this to answer): ${doc.pageContent}\nContact Number: ${doc.metadata.hotline}\nLocation: ${doc.metadata.location}`],
+          ["system", systemPrompt],
           ["human", query]
         ]);
         

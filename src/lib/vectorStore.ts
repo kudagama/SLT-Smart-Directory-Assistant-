@@ -64,7 +64,7 @@ export async function getVectorStore(): Promise<SimpleVectorStore | null> {
 
   try {
     const embeddings = new GoogleGenerativeAIEmbeddings({
-      modelName: "embedding-001", // Standard Gemini embedding model
+      modelName: "gemini-embedding-2", // Standard Gemini embedding model
     });
     
     // Format contacts into searchable string documents
