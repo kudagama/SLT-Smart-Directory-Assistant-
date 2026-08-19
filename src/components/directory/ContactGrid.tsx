@@ -28,6 +28,49 @@ export default function ContactGrid() {
   const [results, setResults] = useState<ScoredResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Voice Search setup
+  const toggleListening = () => {
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Your browser does not support voice search. Please try Google Chrome.');
+      return;
+    }
+
+    // @ts-ignore - SpeechRecognition is not fully typed in standard TS lib yet
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US'; // Works reasonably well for mixed languages in SL
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setQuery(""); // Clear on new speech
+    };
+
+    recognition.onresult = (event: any) => {
+      const current = event.resultIndex;
+      const transcript = event.results[current][0].transcript;
+      setQuery(transcript);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+
   // Keyboard shortcut for search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -89,7 +132,7 @@ export default function ContactGrid() {
           <Search className="absolute left-4 top-4.5 w-5 h-5 text-slate-400 group-focus-within:text-[#005696] transition-colors" />
           <div className="absolute right-3 top-3 flex items-center gap-2">
             <button 
-              onClick={() => setIsListening(!isListening)}
+              onClick={toggleListening}
               className={`p-2.5 rounded-xl transition-all duration-300 flex items-center justify-center ${
                 isListening 
                   ? 'bg-rose-50 text-rose-500 animate-pulse border border-rose-200/50 shadow-sm' 

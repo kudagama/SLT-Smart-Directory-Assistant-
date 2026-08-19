@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Bot, Sparkles, CheckCircle2, Flag, ExternalLink, CornerDownLeft } from 'lucide-react';
+import { Bot, Sparkles, CheckCircle2, Flag, ExternalLink, CornerDownLeft, Mic } from 'lucide-react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 
@@ -23,6 +23,49 @@ export default function CopilotChat() {
   ]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+
+  const toggleListening = () => {
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Your browser does not support voice search. Please try Google Chrome.');
+      return;
+    }
+
+    // @ts-ignore
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setInput("");
+    };
+
+    recognition.onresult = (event: any) => {
+      const current = event.resultIndex;
+      const transcript = event.results[current][0].transcript;
+      setInput(transcript);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -149,16 +192,31 @@ export default function CopilotChat() {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-            className="w-full bg-slate-50/50 pl-4 pr-12 py-3.5 text-sm font-medium focus:outline-none block placeholder-slate-400"
-            placeholder="Type your natural language query..."
+            className={`w-full pl-4 pr-24 py-3.5 text-sm font-medium focus:outline-none block placeholder-slate-400 transition-all ${
+              isListening ? 'bg-rose-50/50 text-rose-600' : 'bg-slate-50/50'
+            }`}
+            placeholder={isListening ? "Listening..." : "Type your natural language query..."}
           />
-          <button 
-            onClick={handleSend}
-            disabled={isLoading || !input.trim()}
-            className="absolute right-2 top-2 p-2 bg-gradient-to-br from-[#005696] to-[#006bb3] text-white rounded-lg hover:shadow-lg transition-all shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <CornerDownLeft className="w-4 h-4" />
-          </button>
+          <div className="absolute right-2 top-2 flex items-center gap-2">
+            <button
+              onClick={toggleListening}
+              disabled={isLoading}
+              className={`p-2 rounded-lg transition-all shadow-sm ${
+                isListening
+                  ? 'bg-rose-100 text-rose-600 animate-pulse'
+                  : 'bg-white text-slate-400 hover:text-[#005696] hover:bg-cyan-50 border border-slate-200'
+              }`}
+            >
+              <Mic className="w-4 h-4" />
+            </button>
+            <button 
+              onClick={handleSend}
+              disabled={isLoading || !input.trim()}
+              className="p-2 bg-gradient-to-br from-[#005696] to-[#006bb3] text-white rounded-lg hover:shadow-lg transition-all shadow-sm group disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <CornerDownLeft className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </div>
     </div>
