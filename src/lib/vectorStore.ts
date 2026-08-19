@@ -81,11 +81,11 @@ export async function getVectorStore(): Promise<SimpleVectorStore | null> {
 
       return {
         pageContent,
-        metadata: { id: contact.id, ...contact }
+        metadata: { ...contact }
       };
     });
 
-    console.log("Initializing in-memory Vector Store with OpenAI Embeddings...");
+    console.log("Initializing in-memory Vector Store with Gemini Embeddings...");
     const store = new SimpleVectorStore(embeddings);
     await store.addDocuments(documents);
     vectorStoreCache = store;
