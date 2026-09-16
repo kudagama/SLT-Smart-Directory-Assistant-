@@ -7,109 +7,177 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function CopilotChat() {
   const [isOpen, setIsOpen] = useState(false);
 
+  const [messages, setMessages] = useState<Message[]>([
+    {
+      id: '1',
+      role: 'assistant',
+      content: 'Hello! I am your AI Copilot. Ask me to find any SLT contact in natural language (English, Sinhala, or Tamil).'
+    }
+  ]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+
+  const toggleListening = () => {
+    if (isListening) {
+      setIsListening(false);
+      return;
+    }
+
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Your browser does not support voice search. Please try Google Chrome.');
+      return;
+    }
+
+    // @ts-ignore
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onstart = () => {
+      setIsListening(true);
+      setInput("");
+    };
+
+    recognition.onresult = (event: any) => {
+      const current = event.resultIndex;
+      const transcript = event.results[current][0].transcript;
+      setInput(transcript);
+    };
+
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+
+    recognition.onerror = (event: any) => {
+      console.error("Speech recognition error", event.error);
+      setIsListening(false);
+    };
+
+    recognition.start();
+  };
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isLoading]);
+
+  const handleSend = async () => {
+    if (!input.trim()) return;
+    
+    const userMsg = { id: Date.now().toString(), role: 'user' as const, content: input.trim() };
+    setMessages(prev => [...prev, userMsg]);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+      const res = await fetch('/api/copilot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: userMsg.content })
+      });
+      
+      const data = await res.json();
+      
+      const assistantMsg = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant' as const,
+        content: data.summary,
+        match: data.match,
+        confidence: data.confidence
+      };
+      
+      setMessages(prev => [...prev, assistantMsg]);
+    } catch (error) {
+      setMessages(prev => [...prev, { id: Date.now().toString(), role: 'assistant', content: "An error occurred connecting to the AI Copilot." }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <>
-      {/* Floating Action Button */}
-      <motion.button
-        initial={{ scale: 0 }}
-        animate={{ scale: isOpen ? 0 : 1 }}
-        transition={{ type: "spring", stiffness: 260, damping: 20 }}
-        onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 p-4 rounded-full bg-[#005696] text-white shadow-lg hover:bg-[#00407a] hover:shadow-xl transition-all z-50 flex items-center justify-center ${isOpen ? 'pointer-events-none' : ''}`}
-      >
-        <MessageSquare className="w-6 h-6" />
-      </motion.button>
+    <div className="flex flex-col h-[50vh] lg:h-full bg-gradient-to-b from-slate-50/60 to-slate-100/40 border-b lg:border-b-0 lg:border-r border-slate-200/60 w-full lg:w-[400px] xl:w-[460px] shrink-0 overflow-hidden relative z-20 shadow-[1px_0_15px_rgba(0,0,0,0.02)]">
+      
+      <div className="px-6 py-5 border-b border-slate-200/60 bg-white/80 backdrop-blur-md flex items-center justify-between z-10 sticky top-0">
+        <h2 className="text-sm font-extrabold text-slate-800 flex items-center gap-2.5">
+          <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100/50 flex items-center justify-center border border-blue-200/50 shadow-sm">
+            <Bot className="w-4 h-4 text-[#005696]" />
+          </div>
+          Agent AI Copilot
+        </h2>
+        <span className="text-[10px] bg-gradient-to-r from-emerald-50 to-emerald-100/50 text-emerald-700 border border-emerald-200/50 px-2.5 py-1 rounded-full font-bold flex items-center gap-1.5 shadow-sm">
+          <Sparkles className="w-3 h-3 text-emerald-500" />
+          Active Context
+        </span>
+      </div>
 
-      {/* Chat Window */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ duration: 0.2 }}
-            className="fixed bottom-6 right-6 w-[380px] sm:w-[420px] h-[600px] max-h-[85vh] bg-white rounded-2xl shadow-2xl border border-slate-200 flex flex-col overflow-hidden z-50"
-          >
-            {/* Header */}
-            <div className="p-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-[#005696]/10 flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-[#005696]" />
-                </div>
-                <div>
-                  <h2 className="text-sm font-semibold text-slate-800">Agent Copilot</h2>
-                  <span className="text-[10px] text-[#005696] font-medium flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" /> AI Powered
-                  </span>
-                </div>
+      <div className="flex-1 overflow-y-auto p-6 space-y-7 relative">
+        {messages.map((msg) => (
+          msg.role === 'user' ? (
+            <div key={msg.id} className="flex flex-col items-end">
+              <div className="bg-gradient-to-br from-[#005696] to-[#006bb3] text-white px-5 py-3.5 rounded-2xl rounded-tr-sm max-w-[90%] text-sm shadow-[0_8px_20px_rgba(0,86,150,0.15)] font-medium leading-relaxed">
+                {msg.content}
               </div>
-              <button 
-                onClick={() => setIsOpen(false)}
-                className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-200 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
             </div>
+          ) : (
+            <motion.div 
+              key={msg.id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="flex flex-col items-start"
+            >
+              <div className="bg-white/95 backdrop-blur-sm border border-slate-200/70 text-slate-800 p-1.5 rounded-2xl rounded-tl-sm max-w-[95%] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+                {msg.match && (
+                  <div className="px-4 py-2.5 flex items-center gap-2 border-b border-slate-100/80 bg-slate-50/50 rounded-t-xl">
+                    <span className="bg-emerald-500 text-white text-[10px] font-bold px-2.5 py-1 rounded-full flex items-center gap-1.5 shadow-sm">
+                      <CheckCircle2 className="w-3.5 h-3.5" /> {msg.confidence}% Match
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-semibold truncate">{msg.match.name}</span>
+                  </div>
+                )}
 
-            {/* Chat Content */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-6">
-              {/* User Query Log */}
-              <div className="flex flex-col items-end">
-                <div className="bg-[#005696] text-white px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[85%] text-sm shadow-sm">
-                  mata tharindu perera, 269 vidyachanda mawatha ahangama inne eyge mobile number eka denna
-                </div>
-                <span className="text-[10px] text-slate-400 mt-1 mr-1 flex items-center gap-1">
-                  <span className="px-1.5 py-0.5 bg-slate-100 rounded text-slate-500 font-medium">Singlish Audio</span> 
-                  11:12 AM
-                </span>
-              </div>
-
-              {/* AI Response */}
-              <motion.div 
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col items-start"
-              >
-                <div className="bg-slate-100 border border-slate-200 text-slate-800 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[95%] text-sm shadow-sm">
-                  <p className="mb-2">Here is the contact information matching <span className="font-semibold">Tharindu Perera</span> in <span className="font-semibold">Ahangama</span>:</p>
+                <div className="p-4">
+                  <p className="text-sm font-medium text-slate-700 leading-relaxed">
+                    {msg.content}
+                  </p>
                   
-                  <div className="space-y-2 mt-3">
-                    <div className="bg-white p-3 rounded border border-[#005696]/20 shadow-sm relative overflow-hidden">
-                      <div className="absolute left-0 top-0 bottom-0 w-1 bg-[#00A3E0]"></div>
-                      <div className="flex items-center justify-between mb-2 pl-2">
-                        <span className="text-sm font-bold text-slate-900">Tharindu Perera</span>
-                        <span className="text-[10px] flex items-center text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-100">
-                          <CheckCircle2 className="w-3 h-3 mr-1" /> Verified Resident
-                        </span>
+                  {msg.match && (
+                    <div className="mt-5 space-y-2.5">
+                      <div className="p-3 bg-slate-50 border border-slate-200 rounded-xl mb-4">
+                         <p className="text-xs text-slate-500 font-semibold mb-1">Direct Hotline</p>
+                         <p className="text-xl font-bold tabular-nums text-[#005696]">{msg.match.hotline}</p>
                       </div>
+
+                      <button className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-bold text-rose-600 bg-rose-50/50 hover:bg-rose-50 border border-rose-100 rounded-xl transition-all hover:shadow-sm active:scale-95">
+                        <Flag className="w-4 h-4" />
+                        Report Outdated Number
+                      </button>
                       
-                      <div className="pl-2 mb-3 text-xs text-slate-600 flex items-start gap-1.5">
-                        <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-slate-400" />
-                        <span>269, Vidyachanda Mawatha,<br/>Ahangama, Southern Province</span>
-                      </div>
-
-                      <div className="flex items-center justify-between group bg-slate-50 p-2 rounded border border-slate-100 ml-2">
-                        <div className="flex items-center gap-2">
-                          <Phone className="w-4 h-4 text-slate-400" />
-                          <span className="text-base font-bold tabular-nums text-slate-900 tracking-tight">071 3 452 890</span>
-                        </div>
-                        <button className="text-slate-400 hover:text-[#005696] transition-colors p-1.5 bg-white border border-slate-200 rounded shadow-sm group-hover:border-[#005696]/30" title="Copy">
-                          <Copy className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
+                      <Link href="/escalation" className="w-full flex items-center justify-between gap-2 px-4 py-2.5 text-xs font-bold text-slate-700 bg-slate-50 hover:bg-slate-100 border border-slate-200/80 rounded-xl transition-all hover:shadow-sm active:scale-95 group">
+                        <span className="flex items-center gap-2">
+                          <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" />
+                          Transfer to Level-2 Support
+                        </span>
+                        <span className="text-[10px] bg-white border border-slate-200 text-slate-500 px-2 py-0.5 rounded shadow-sm font-mono font-bold group-hover:border-slate-300">L2</span>
+                      </Link>
                     </div>
-                  </div>
-
-                  <div className="mt-3 flex items-start gap-1.5 p-2 bg-blue-50 rounded border border-blue-100 text-xs text-[#005696]">
-                    <Sparkles className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                    <p>Found this match with 98% confidence based on name and address similarity.</p>
-                  </div>
+                  )}
                 </div>
-                <span className="text-[10px] text-slate-400 mt-1 ml-1 flex items-center gap-1">
-                  10:24 AM • Copilot
-                </span>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
+          )
+        ))}
+        {isLoading && (
+          <div className="flex items-center gap-2 text-slate-400 text-xs font-medium px-2">
+            <Bot className="w-4 h-4 animate-pulse" />
+            Copilot is thinking...
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
 
             {/* Input Area */}
             <div className="p-4 border-t border-slate-200 bg-white">
