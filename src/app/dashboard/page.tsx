@@ -28,9 +28,9 @@ const sinhalaCallScript = [
 
 const englishCallScript = [
   { delay: 1000, speaker: 'agent', text: 'Ayubowan! I am Himali. How may I help you?' },
-  { delay: 4000, speaker: 'customer', text: 'Hello, I am looking to get a new broadband connection.' },
+  { delay: 4000, speaker: 'customer', text: 'Hello, I am looking to get a new unlimited broadband connection.' },
   { delay: 9000, speaker: 'agent', text: 'Please hold on Sir/Madam while I check the details.' },
-  { delay: 13000, speaker: 'agent', text: 'Thank you for being on hold. The Fibre packages start at Rs. 4,400. Is there anything else I can help you with Sir/Madam?' },
+  { delay: 13000, speaker: 'agent', text: 'Thank you for being on hold. The Unlimited Home plan is Rs. 5,900 and Home Plus is Rs. 9,900. Is there anything else I can help you with Sir/Madam?' },
   { delay: 19000, speaker: 'customer', text: 'No, that is all. Thanks!' },
   { delay: 22000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLT Mobitel. Have a nice day!' }
 ];
@@ -176,12 +176,16 @@ export default function DashboardPage() {
         content: (
           <div className="space-y-2">
             <div className="flex justify-between items-center p-2 border border-slate-200 rounded-md bg-white">
-              <span className="text-xs font-bold text-slate-700">Fibre Unlimited 10</span>
-              <span className="text-xs font-bold text-[#005696]">Rs. 4,490</span>
+              <span className="text-xs font-bold text-slate-700">Plan 1 - Home</span>
+              <span className="text-xs font-bold text-[#005696]">Rs. 5,900</span>
             </div>
             <div className="flex justify-between items-center p-2 border border-slate-200 rounded-md bg-white">
-              <span className="text-xs font-bold text-slate-700">Fibre Unlimited 25</span>
-              <span className="text-xs font-bold text-[#005696]">Rs. 6,490</span>
+              <span className="text-xs font-bold text-slate-700">Plan 2 - Home Plus</span>
+              <span className="text-xs font-bold text-[#005696]">Rs. 9,900</span>
+            </div>
+            <div className="flex justify-between items-center p-2 border border-slate-200 rounded-md bg-white">
+              <span className="text-xs font-bold text-slate-700">Plan 3 - Twin</span>
+              <span className="text-xs font-bold text-[#005696]">Rs. 14,900</span>
             </div>
           </div>
         )
