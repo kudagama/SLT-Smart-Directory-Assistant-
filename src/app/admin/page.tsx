@@ -11,6 +11,11 @@ export default function AdminPage() {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
 
+  const [serviceId, setServiceId] = useState('');
+  const [date, setDate] = useState('2026-09-28');
+  const [reportVisible, setReportVisible] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (username === 'admin' && password === 'admin123') {
@@ -56,11 +61,6 @@ export default function AdminPage() {
       </div>
     );
   }
-
-  const [serviceId, setServiceId] = useState('');
-  const [date, setDate] = useState('2026-09-28');
-  const [reportVisible, setReportVisible] = useState(false);
-  const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = () => {
     if (!serviceId) return;
