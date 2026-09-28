@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Search, Activity, User, Calendar, BarChart3, TrendingUp, AlertTriangle, PhoneCall, Star, FileText, CheckCircle2, Lock, Shield } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 export default function AdminPage() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,6 +47,11 @@ export default function AdminPage() {
               <Lock className="w-5 h-5" /> Sign In
             </button>
           </form>
+          <div className="mt-8 text-center">
+            <Link href="/" className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-400 hover:text-blue-400 transition-colors">
+              <User className="w-4 h-4" /> Agent Login
+            </Link>
+          </div>
         </div>
       </div>
     );
