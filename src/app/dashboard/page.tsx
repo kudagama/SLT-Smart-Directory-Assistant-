@@ -17,31 +17,36 @@ type CopilotSuggestion = {
   content: React.ReactNode;
 };
 
-const productCallScript = [
-  { delay: 1000, speaker: 'agent', text: "Ayubowan, I'm Gehan, how may I help you?" },
-  { delay: 4000, speaker: 'customer', text: 'Hello, I am looking to get a new broadband connection. I heard about SLT Fibre.' },
-  { delay: 9000, speaker: 'agent', text: 'Great choice! May I know your location to check coverage?' },
-  { delay: 13000, speaker: 'customer', text: 'I am from Nugegoda. What are the prices for the unlimited data packages?' },
-  { delay: 18000, speaker: 'agent', text: 'Please hold on while I check the coverage and packages for Nugegoda.' },
-  { delay: 22000, speaker: 'agent', text: 'Thank you for being on hold. Coverage is available, and packages start at Rs. 5,900.' },
-  { delay: 27000, speaker: 'customer', text: 'Can you tell me more about the unlimited Home packages?' },
-  { delay: 32000, speaker: 'agent', text: 'Yes, the Home package is Rs. 5,900 with 100 Mbps speed, and Home Plus is Rs. 9,900 with 200 Mbps. Is there anything else I can help with you?' },
-  { delay: 38000, speaker: 'customer', text: 'No, that is all. Thanks!' },
-  { delay: 41000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLTMobitel, have a nice day.' }
+const sinhalaCallScript = [
+  { delay: 1000, speaker: 'agent', text: 'ආයුබෝවන්! මම හිමාලි, මට පුළුවනි ඔබට සහය වන්න.' },
+  { delay: 4000, speaker: 'customer', text: 'මට Kandy Hospital එකේ අංකය දැනගන්න පුළුවන්ද?' },
+  { delay: 9000, speaker: 'agent', text: 'කරුණාකර රැඳී ඉන්න සර්/ මැඩම්.' },
+  { delay: 13000, speaker: 'agent', text: 'රැඳීසිටියාට ස්තූතියි. අංකය 081 222 2222. වෙනත් යමක් දැනගැනීමට අවශ්‍යද?' },
+  { delay: 19000, speaker: 'customer', text: 'නෑ, එච්චරයි. ස්තූතියි.' },
+  { delay: 22000, speaker: 'agent', text: 'මා ලබාදුන් සේවය ඇගයීම සඳහා රැඳී සිටින්න. SLT Mobitel ඇමතුවාට ස්තූතියි. සුභ දවසක්!' }
 ];
 
-const directoryCallScript = [
-  { delay: 1000, speaker: 'agent', text: "Ayubowan, I'm Gehan, how may I help you?" },
-  { delay: 4000, speaker: 'customer', text: 'Hello, I want the number for the Bank of Ceylon, Kandy branch.' },
-  { delay: 9000, speaker: 'agent', text: 'Sure, Bank of Ceylon Kandy branch. Please hold on.' },
-  { delay: 13000, speaker: 'agent', text: 'Thank you for being on hold. The number is 081 222 2222 and email is boc.kandy@boc.lk. Is there anything else I can help with you?' },
-  { delay: 20000, speaker: 'customer', text: 'No, that is enough. Thank you.' },
-  { delay: 23000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLTMobitel, have a nice day.' }
+const englishCallScript = [
+  { delay: 1000, speaker: 'agent', text: 'Ayubowan! I am Himali. How may I help you?' },
+  { delay: 4000, speaker: 'customer', text: 'Hello, I am looking to get a new broadband connection.' },
+  { delay: 9000, speaker: 'agent', text: 'Please hold on Sir/Madam while I check the details.' },
+  { delay: 13000, speaker: 'agent', text: 'Thank you for being on hold. The Fibre packages start at Rs. 4,400. Is there anything else I can help you with Sir/Madam?' },
+  { delay: 19000, speaker: 'customer', text: 'No, that is all. Thanks!' },
+  { delay: 22000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLT Mobitel. Have a nice day!' }
+];
+
+const tamilCallScript = [
+  { delay: 1000, speaker: 'agent', text: 'வணக்கம் ! நான் ஹிமாலி , என்னால் எவ்வகையில் உதவ முடியும்?' },
+  { delay: 4000, speaker: 'customer', text: 'நான் Kandy Bank of Ceylon இலக்கத்தை அறிய விரும்புகிறேன்.' },
+  { delay: 9000, speaker: 'agent', text: 'தயவு செய்து அழைப்பில் காத்திருங்கள். Sir / Madam.' },
+  { delay: 13000, speaker: 'agent', text: 'அழைப்பில் காத்திருந்தமைக்கு நன்றி. இலக்கம் 081 222 2222. வேறேதும் தெரிந்து கொள்ள இருக்கிறதா? Sir / Madam.' },
+  { delay: 19000, speaker: 'customer', text: 'இல்லை, நன்றி.' },
+  { delay: 22000, speaker: 'agent', text: 'இந்த அழைப்பை மதிப்பீடு செய்ய தயவு செய்து காத்திருங்கள். SLT Mobitel அழைத்தமைக்கு நன்றி இந்த நாள் இனிய நாளாக அமையட்டும்.' }
 ];
 
 export default function DashboardPage() {
   const [callActive, setCallActive] = useState(false);
-  const [activeCallType, setActiveCallType] = useState<'product' | 'directory' | null>(null);
+  const [activeCallType, setActiveCallType] = useState<'sinhala' | 'english' | 'tamil' | null>(null);
   const [transcript, setTranscript] = useState<TranscriptMessage[]>([]);
   const [suggestions, setSuggestions] = useState<CopilotSuggestion[]>([]);
   const [callTimer, setCallTimer] = useState(0);
@@ -58,7 +63,7 @@ export default function DashboardPage() {
     }
   }, [transcript]);
 
-  const startCallSimulation = (type: 'product' | 'directory') => {
+  const startCallSimulation = (type: 'sinhala' | 'english' | 'tamil') => {
     setCallActive(true);
     setActiveCallType(type);
     setTranscript([]);
@@ -70,7 +75,7 @@ export default function DashboardPage() {
       setCallTimer(prev => prev + 1);
     }, 1000);
 
-    const activeScript = type === 'product' ? productCallScript : directoryCallScript;
+    const activeScript = type === 'sinhala' ? sinhalaCallScript : type === 'english' ? englishCallScript : tamilCallScript;
 
     // Schedule transcript messages
     activeScript.forEach((step) => {
@@ -107,7 +112,21 @@ export default function DashboardPage() {
     const lowerText = text.toLowerCase();
     const newSuggestions: CopilotSuggestion[] = [];
 
-    if (lowerText.includes('broadband') || lowerText.includes('fibre')) {
+    if (lowerText.includes('hospital') || lowerText.includes('kandy')) {
+      newSuggestions.push({
+        id: 'hospital-dir',
+        type: 'intent',
+        title: 'Directory Search: Kandy Hospital',
+        content: (
+          <div className="space-y-2">
+            <p className="text-sm font-bold text-slate-800">Kandy General Hospital</p>
+            <p className="text-xs text-slate-600 flex items-center gap-1"><Phone className="w-3 h-3"/> 081 222 2222</p>
+          </div>
+        )
+      });
+    }
+
+    if (lowerText.includes('broadband') || lowerText.includes('fibre') || lowerText.includes('ceylon')) {
       newSuggestions.push({
         id: 'fibre-product',
         type: 'product',
@@ -355,12 +374,15 @@ export default function DashboardPage() {
               {!callActive && (
                 <div className="mt-8 p-6 border border-blue-200 bg-blue-50/50 rounded-xl max-w-lg mx-auto text-center space-y-4 shadow-sm backdrop-blur-sm">
                    <p className="text-sm font-bold text-[#005696] flex items-center justify-center gap-2"><PhoneCall className="w-4 h-4" /> Simulator Controls</p>
-                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                     <button onClick={() => startCallSimulation('product')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                       <Play className="w-3 h-3 fill-white" /> Simulate Product Call
+                   <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                     <button onClick={() => startCallSimulation('sinhala')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                       <Play className="w-3 h-3 fill-white" /> සිංහල Call
                      </button>
-                     <button onClick={() => startCallSimulation('directory')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                       <Play className="w-3 h-3 fill-white" /> Simulate Directory Call
+                     <button onClick={() => startCallSimulation('english')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                       <Play className="w-3 h-3 fill-white" /> English Call
+                     </button>
+                     <button onClick={() => startCallSimulation('tamil')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                       <Play className="w-3 h-3 fill-white" /> தமிழ் Call
                      </button>
                    </div>
                 </div>
@@ -375,7 +397,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     className="mt-8 mx-auto w-full max-w-lg bg-rose-400 border border-rose-500 rounded-xl p-5 shadow-lg z-20 text-center"
                   >
-                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'directory' ? 'English Directory' : 'English Products'}</p>
+                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'sinhala' ? 'Sinhala Call' : activeCallType === 'english' ? 'English Call' : 'Tamil Call'}</p>
                     <p className="text-xs font-medium text-rose-900">Fronter: - CONTACT 0776165556 UID: Y9240901190037712</p>
                   </motion.div>
                 )}
