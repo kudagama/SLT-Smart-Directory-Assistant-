@@ -164,6 +164,12 @@ export default function LoginPage() {
             By signing in, you agree to the Sri Lanka Telecom<br/>
             <a href="#" className="text-[#005696] hover:underline font-bold">Acceptable Use Policy</a> and <a href="#" className="text-[#005696] hover:underline font-bold">Privacy Guidelines</a>.
           </p>
+
+          <div className="mt-8 text-center">
+            <Link href="/admin" className="inline-flex items-center gap-1.5 text-sm font-bold text-slate-400 hover:text-[#005696] transition-colors">
+              <ShieldCheck className="w-4 h-4" /> Admin Login
+            </Link>
+          </div>
         </motion.div>
       </div>
 
