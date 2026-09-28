@@ -85,11 +85,6 @@ export default function TopNavigation() {
             <Activity className="w-4 h-4" />
             Performance
           </Link>
-          <Link href="/admin" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
-            <LayoutDashboard className="w-4 h-4" />
-            Admin
-          </Link>
-
         </nav>
 
         <div className="w-px h-5 bg-slate-200 hidden md:block"></div>
