@@ -230,26 +230,27 @@ export default function DashboardPage() {
         title: 'Directory Result: BOC Kandy',
         content: (
           <div className="space-y-3">
-            <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-3">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-emerald-900">Primary Contact (General)</span>
+            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/5 rounded-bl-full pointer-events-none"></div>
+              <div className="flex items-center justify-between mb-3 relative z-10">
+                <span className="text-xs font-black text-emerald-900 uppercase tracking-widest">Primary Contact</span>
                 <button className="text-emerald-700 hover:text-emerald-900"><Phone className="w-4 h-4" /></button>
               </div>
-              <p className="text-2xl font-black text-emerald-700 tracking-tight">081 222 2222</p>
-              <p className="text-xs text-emerald-800 mt-1 mb-3">boc.kandy@boc.lk</p>
+              <p className="text-3xl font-black text-emerald-700 tracking-tight mb-1 relative z-10">081 222 2222</p>
+              <p className="text-xs font-medium text-emerald-800 relative z-10">boc.kandy@boc.lk</p>
               
-              <div className="border-t border-emerald-200/60 pt-2 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-emerald-800">WhatsApp / Direct</span>
-                  <p className="text-sm font-bold text-emerald-700">077 123 4567</p>
+              <div className="mt-4 pt-3 border-t border-emerald-200/60 grid grid-cols-2 gap-3 relative z-10">
+                <div>
+                  <p className="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest mb-1">WhatsApp</p>
+                  <p className="text-sm font-bold text-emerald-800">077 222 2222</p>
                 </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-emerald-800">Fax (Branch Manager)</span>
-                  <p className="text-sm font-bold text-emerald-700">081 222 2223</p>
+                <div>
+                  <p className="text-[10px] font-bold text-emerald-600/70 uppercase tracking-widest mb-1">Fax Number</p>
+                  <p className="text-sm font-bold text-emerald-800">081 222 2223</p>
                 </div>
               </div>
             </div>
-            <button className="w-full py-2 text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 rounded-md hover:bg-emerald-200 transition-colors">
+            <button className="w-full py-2.5 text-xs font-bold text-white bg-emerald-600 border border-emerald-700 rounded-lg shadow hover:bg-emerald-700 transition-colors">
               Transfer Call
             </button>
           </div>
