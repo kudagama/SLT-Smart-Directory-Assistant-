@@ -11,6 +11,7 @@
   "dependencies": {
     "@langchain/google-genai": "^2.2.0",
     "@langchain/openai": "^1.5.8",
+    "face-api.js": "^0.22.2",
     "framer-motion": "^13.1.0",
     "langchain": "^1.5.9",
     "lucide-react": "^1.31.0",

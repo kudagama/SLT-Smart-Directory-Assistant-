@@ -32,7 +32,6 @@ export default function EmotionDetector() {
     if (!isModelLoaded) return;
 
     let stream: MediaStream | null = null;
-    let detectionInterval: NodeJS.Timeout;
 
     const startVideo = async () => {
       try {
@@ -50,9 +49,6 @@ export default function EmotionDetector() {
     return () => {
       if (stream) {
         stream.getTracks().forEach(track => track.stop());
-      }
-      if (detectionInterval) {
-        clearInterval(detectionInterval);
       }
     };
   }, [isModelLoaded]);
@@ -72,8 +68,9 @@ export default function EmotionDetector() {
           let maxEmotion = '';
           let maxValue = 0;
           for (const [emotion, value] of Object.entries(expressions)) {
-            if (value > maxValue) {
-              maxValue = value;
+            const numValue = value as number;
+            if (numValue > maxValue) {
+              maxValue = numValue;
               maxEmotion = emotion;
             }
           }
