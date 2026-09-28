@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Phone, PhoneOff, User, Bot, Zap, Wifi, CheckCircle2, AlertCircle, Play, Pause, Activity, ShieldAlert, Cpu, X, Star, TrendingUp, AlertTriangle, Target } from 'lucide-react';
+import { Phone, PhoneOff, User, Bot, Zap, Wifi, CheckCircle2, AlertCircle, Play, Pause, Activity, ShieldAlert, Cpu, X, Star, TrendingUp, AlertTriangle, Target, PhoneCall } from 'lucide-react';
 
 type TranscriptMessage = {
   id: string;
@@ -239,85 +239,168 @@ export default function DashboardPage() {
       
       {/* Main Layout (Row) */}
       <div className="flex w-full h-full">
-        {/* Left Panel: Call Controls & Live Transcript */}
+        {/* Left Panel: Pearl Modernized Interface */}
         <div className="w-full lg:w-7/12 flex flex-col border-r border-slate-200 bg-white relative shadow-[10px_0_30px_rgba(0,0,0,0.02)] z-10">
           
-          {/* Call Header */}
-          <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
-            <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 rounded-full flex items-center justify-center shadow-sm ${callActive ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-400'}`}>
-                <User className="w-6 h-6" />
+          {/* Pearl Top Header */}
+          <div className="px-6 py-3 border-b border-slate-200 bg-slate-50 flex items-center justify-between text-xs font-bold text-slate-600 overflow-x-auto whitespace-nowrap">
+            <div className="flex items-center gap-4 lg:gap-6">
+              <div className="flex items-center gap-2 text-[#005696] font-black text-sm">
+                <ShieldAlert className="w-4 h-4" /> PEARL AI
               </div>
-              <div>
-                <h2 className="text-lg font-bold text-slate-800">Gehan Jayawardana</h2>
-                <p className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
-                  {callActive ? (
-                    <><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Call • {formatTime(callTimer)}</>
-                  ) : (
-                    <><span className="w-2 h-2 rounded-full bg-slate-300"></span> Idle</>
-                  )}
-                </p>
-              </div>
+              <div>Logged in as: <span className="text-slate-800">Gehan Jayawardana</span></div>
+              <div>Campaign: <span className="text-slate-800">C_SLT</span></div>
             </div>
-            
-            <div>
-              {!callActive ? (
-                <div className="flex items-center gap-2">
-                  <button onClick={() => startCallSimulation('product')} className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-full font-bold text-xs shadow-md transition-all active:scale-95">
-                    <Play className="w-3 h-3 fill-white" /> Product Call
-                  </button>
-                  <button onClick={() => startCallSimulation('directory')} className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full font-bold text-xs shadow-md transition-all active:scale-95">
-                    <Play className="w-3 h-3 fill-white" /> Directory Call
-                  </button>
-                </div>
+            <div className="flex items-center gap-4 lg:gap-6 text-right">
+              <div>Calls in Queue: <span className="text-slate-800 font-black">0</span></div>
+              {callActive ? (
+                 <div className="text-emerald-600 font-black uppercase flex items-center gap-2"><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> LIVE CALL ({formatTime(callTimer)})</div>
               ) : (
-                <button onClick={endCall} className="flex items-center gap-2 px-5 py-2.5 bg-rose-500 hover:bg-rose-600 text-white rounded-full font-bold text-sm shadow-md transition-all active:scale-95">
-                  <PhoneOff className="w-4 h-4" /> End Call
-                </button>
+                 <div className="text-slate-400 font-black uppercase">NO LIVE CALL</div>
               )}
             </div>
           </div>
 
-          {/* Live Transcript Area */}
-          <div className="flex-1 overflow-y-auto p-6 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed" style={{ backgroundColor: '#f8fafc' }} ref={transcriptRef}>
-            {transcript.length === 0 && !callActive && (
-              <div className="h-full flex flex-col items-center justify-center opacity-50">
-                <Bot className="w-16 h-16 text-slate-300 mb-4" />
-                <p className="text-slate-500 font-medium">Waiting for call to start AI analysis...</p>
-              </div>
-            )}
-
-            <AnimatePresence>
-              {transcript.map((msg) => (
-                <motion.div
-                  key={msg.id}
-                  initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  className={`mb-6 flex flex-col ${msg.speaker === 'customer' ? 'items-start' : 'items-end'}`}
-                >
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1 px-1">
-                    {msg.speaker}
-                  </span>
-                  <div className={`max-w-[85%] p-4 rounded-2xl shadow-sm text-sm font-medium leading-relaxed ${
-                    msg.speaker === 'customer' 
-                    ? 'bg-white border border-slate-200 text-slate-800 rounded-tl-sm' 
-                    : 'bg-gradient-to-br from-[#005696] to-[#00407a] text-white rounded-tr-sm'
-                  }`}>
-                    {msg.text}
-                  </div>
-                </motion.div>
-              ))}
+          {/* Body Section */}
+          <div className="flex flex-1 overflow-hidden relative">
+            
+            {/* Left Action Buttons */}
+            <div className="w-32 lg:w-40 border-r border-slate-200 bg-slate-50 p-4 flex flex-col gap-3 shrink-0">
+              <div className="text-xs font-black text-slate-500 mb-2">STATUS:</div>
+              <button className="w-full py-2 bg-emerald-500 text-white font-bold text-[10px] rounded border border-emerald-600 shadow-sm">YOU ARE ACTIVE</button>
+              <button className="w-full py-2 bg-amber-400 text-amber-900 font-bold text-[10px] rounded border border-amber-500 shadow-sm">BREAK</button>
               
-              {callActive && (
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  className="flex items-center gap-2 text-slate-400 text-xs font-medium px-2 py-4"
-                >
-                  <Activity className="w-4 h-4 animate-pulse text-[#005696]" /> AI is listening to the live call...
-                </motion.div>
+              <div className="mt-8 space-y-3">
+                <button className="w-full py-2 bg-slate-200 text-slate-600 font-bold text-[10px] rounded border border-slate-300 hover:bg-slate-300">PARK CALL</button>
+                <button onClick={callActive ? endCall : undefined} className={`w-full py-2 font-bold text-[10px] rounded border shadow-sm ${callActive ? 'bg-purple-500 text-white border-purple-600 hover:bg-purple-600' : 'bg-slate-200 text-slate-600 border-slate-300 hover:bg-slate-300'}`}>TRANSFER - CONF</button>
+                {callActive && (
+                  <button onClick={endCall} className="w-full py-2 bg-rose-500 text-white font-bold text-[10px] rounded border border-rose-600 hover:bg-rose-600 shadow-sm mt-4">HANGUP CUSTOMER</button>
+                )}
+              </div>
+            </div>
+
+            {/* Form Area */}
+            <div className="flex-1 p-6 overflow-y-auto bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-fixed relative" style={{ backgroundColor: '#ffffff' }}>
+              
+              {/* Form Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 mb-6">
+                
+                {/* Left Column Fields */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Title:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">First:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Last:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Address1:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">City:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Province:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Phone:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" value={callActive ? "0776165556" : ""} readOnly />
+                  </div>
+                </div>
+
+                {/* Right Column Fields */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Address3:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">State:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">IVR Entry:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs text-slate-500 bg-slate-50 focus:ring-1 focus:ring-blue-500 outline-none" readOnly value={callActive ? "CONTACT_0776165556" : ""} />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Email:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2 mt-6">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">PostCode:</label>
+                    <input type="text" className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none" />
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <label className="w-20 text-right text-xs font-bold text-slate-600">Gender:</label>
+                    <select className="flex-1 border border-slate-300 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500 outline-none">
+                       <option>U - Undefined</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              {/* Call Simulation Starters */}
+              {!callActive && (
+                <div className="mt-8 p-6 border border-blue-200 bg-blue-50/50 rounded-xl max-w-lg mx-auto text-center space-y-4 shadow-sm backdrop-blur-sm">
+                   <p className="text-sm font-bold text-[#005696] flex items-center justify-center gap-2"><PhoneCall className="w-4 h-4" /> Simulator Controls</p>
+                   <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                     <button onClick={() => startCallSimulation('product')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                       <Play className="w-3 h-3 fill-white" /> Simulate Product Call
+                     </button>
+                     <button onClick={() => startCallSimulation('directory')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                       <Play className="w-3 h-3 fill-white" /> Simulate Directory Call
+                     </button>
+                   </div>
+                </div>
               )}
-            </AnimatePresence>
+
+              {/* Floating Incoming Call Banner */}
+              <AnimatePresence>
+                {callActive && callTimer < 5 && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    className="mt-8 mx-auto w-full max-w-lg bg-emerald-400 border border-emerald-500 rounded-xl p-5 shadow-lg z-20 text-center"
+                  >
+                    <p className="text-sm font-bold text-emerald-950 mb-1">Incoming: (077)616-5556 Group- Sinhala Products</p>
+                    <p className="text-xs font-medium text-emerald-900">Fronter: - CONTACT 0776165556 UID: Y9240901190037712</p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+            </div>
+          </div>
+          
+          {/* Transcript Footer (Like Pearl Bottom Bar) */}
+          <div className="h-40 bg-[#4287f5] border-t border-slate-300 relative overflow-hidden flex flex-col shrink-0">
+             <div className="p-2 px-4 text-white text-[10px] font-bold border-b border-[#2b6bd4] flex justify-between shadow-sm">
+                <span>Show conference call channel information</span>
+                <span>Agents View +</span>
+             </div>
+             
+             {/* Live transcript area */}
+             <div className="flex-1 overflow-y-auto p-4 space-y-1.5" ref={transcriptRef}>
+                {transcript.map((msg) => (
+                  <div key={msg.id} className="text-xs font-bold">
+                    <span className={msg.speaker === 'agent' ? 'text-blue-100' : 'text-emerald-200 uppercase'}>{msg.speaker}:</span> <span className="text-white font-medium">{msg.text}</span>
+                  </div>
+                ))}
+                {callActive && (
+                  <div className="flex items-center gap-2 text-blue-200 text-xs font-medium mt-2">
+                    <Activity className="w-3 h-3 animate-pulse" /> AI is listening to the live call...
+                  </div>
+                )}
+             </div>
           </div>
         </div>
 
