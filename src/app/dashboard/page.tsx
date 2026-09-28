@@ -23,9 +23,11 @@ const productCallScript = [
   { delay: 9000, speaker: 'agent', text: 'Great choice! May I know your location to check coverage?' },
   { delay: 13000, speaker: 'customer', text: 'I am from Nugegoda. What are the prices for the unlimited data packages?' },
   { delay: 18000, speaker: 'agent', text: 'Please hold on while I check the coverage and packages for Nugegoda.' },
-  { delay: 22000, speaker: 'agent', text: 'Thank you for being on hold. Coverage is available, and packages start at Rs. 4,490. Is there anything else I can help with you?' },
-  { delay: 28000, speaker: 'customer', text: 'No, that is all. Thanks!' },
-  { delay: 31000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLTMobitel, have a nice day.' }
+  { delay: 22000, speaker: 'agent', text: 'Thank you for being on hold. Coverage is available, and packages start at Rs. 5,900.' },
+  { delay: 27000, speaker: 'customer', text: 'Can you tell me more about the unlimited Home packages?' },
+  { delay: 32000, speaker: 'agent', text: 'Yes, the Home package is Rs. 5,900 with 100 Mbps speed, and Home Plus is Rs. 9,900 with 200 Mbps. Is there anything else I can help with you?' },
+  { delay: 38000, speaker: 'customer', text: 'No, that is all. Thanks!' },
+  { delay: 41000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLTMobitel, have a nice day.' }
 ];
 
 const directoryCallScript = [
@@ -159,8 +161,39 @@ export default function DashboardPage() {
               <span className="text-xs font-bold text-slate-700">Fibre Unlimited 25</span>
               <span className="text-xs font-bold text-[#005696]">Rs. 6,490</span>
             </div>
+          </div>
+        )
+      });
+    }
+
+    if (lowerText.includes('home package') || lowerText.includes('unlimited home')) {
+      newSuggestions.push({
+        id: 'home-packages',
+        type: 'product',
+        title: 'Unlimited Home Packages',
+        content: (
+          <div className="space-y-2 text-xs">
+            <div className="border border-slate-200 rounded-md overflow-hidden bg-white">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="bg-slate-100 border-b border-slate-200 text-slate-600">
+                    <th className="py-2 px-3 font-bold">Package</th>
+                    <th className="py-2 px-3 font-bold">Speed</th>
+                    <th className="py-2 px-3 font-bold">Monthly</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  <tr><td className="py-2 px-3 font-medium">Home</td><td className="py-2 px-3 text-slate-500">100/50</td><td className="py-2 px-3 font-bold text-[#005696]">Rs. 5,900</td></tr>
+                  <tr><td className="py-2 px-3 font-medium">Home Plus</td><td className="py-2 px-3 text-slate-500">200/100</td><td className="py-2 px-3 font-bold text-[#005696]">Rs. 9,900</td></tr>
+                  <tr><td className="py-2 px-3 font-medium">Twin</td><td className="py-2 px-3 text-slate-500">200/200</td><td className="py-2 px-3 font-bold text-[#005696]">Rs. 14,900 <span className="text-[9px] text-slate-400 block leading-tight">+1 Static IP</span></td></tr>
+                  <tr><td className="py-2 px-3 font-medium">Pro</td><td className="py-2 px-3 text-slate-500">500/200</td><td className="py-2 px-3 font-bold text-[#005696]">Rs. 19,900</td></tr>
+                  <tr><td className="py-2 px-3 font-medium">Edge</td><td className="py-2 px-3 text-slate-500">750/250</td><td className="py-2 px-3 font-bold text-[#005696]">Rs. 29,900</td></tr>
+                  <tr><td className="py-2 px-3 font-medium">Turbo</td><td className="py-2 px-3 text-slate-500">1000/300</td><td className="py-2 px-3 font-bold text-[#005696]">Rs. 39,900</td></tr>
+                </tbody>
+              </table>
+            </div>
             <button className="w-full py-2 text-xs font-bold text-white bg-[#005696] rounded-md hover:bg-[#00407a] transition-colors mt-2">
-              Send SMS Details to Customer
+              Send Full Details via SMS
             </button>
           </div>
         )
@@ -216,7 +249,7 @@ export default function DashboardPage() {
                 <User className="w-6 h-6" />
               </div>
               <div>
-                <h2 className="text-lg font-bold text-slate-800">Unknown Caller</h2>
+                <h2 className="text-lg font-bold text-slate-800">Gehan Jayawardana</h2>
                 <p className="text-xs font-medium text-slate-500 flex items-center gap-1.5">
                   {callActive ? (
                     <><span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Live Call • {formatTime(callTimer)}</>

@@ -80,10 +80,7 @@ export default function TopNavigation() {
             <Search className="w-4 h-4" />
             Directory
           </Link>
-          <Link href="/products" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
-            <Globe className="w-4 h-4" />
-            Products
-          </Link>
+
           <Link href="/evaluations" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
             <Activity className="w-4 h-4" />
             Performance
@@ -92,10 +89,7 @@ export default function TopNavigation() {
             <LayoutDashboard className="w-4 h-4" />
             Admin
           </Link>
-          <Link href="/escalation" className="text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors flex items-center gap-1.5">
-            <Phone className="w-4 h-4" />
-            Escalation View
-          </Link>
+
         </nav>
 
         <div className="w-px h-5 bg-slate-200 hidden md:block"></div>
@@ -113,7 +107,7 @@ export default function TopNavigation() {
         {/* Agent Profile / Logout */}
         <Link href="/" className="flex items-center gap-2 pl-2 border-l border-slate-200 group" title="Sign Out">
           <div className="text-right hidden sm:block">
-            <p className="text-xs font-semibold text-slate-700 leading-none group-hover:text-rose-600 transition-colors">A. Perera</p>
+            <p className="text-xs font-semibold text-slate-700 leading-none group-hover:text-rose-600 transition-colors">Gehan Jayawardana</p>
             <p className="text-[10px] text-slate-500 mt-0.5 font-mono">Sign Out</p>
           </div>
           <div className="w-8 h-8 rounded-full bg-[#e0f4fc] border border-cyan-100 flex items-center justify-center text-[#005696] group-hover:bg-rose-50 group-hover:text-rose-600 group-hover:border-rose-100 transition-colors">

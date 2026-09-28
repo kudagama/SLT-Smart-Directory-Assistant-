@@ -1,234 +1,185 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, Database, ShieldAlert, CheckCircle, Clock, MoreVertical, Filter, Download, ArrowUpRight, Activity, TrendingUp, AlertTriangle, Plus, Server, Mic } from 'lucide-react';
-
-const KPI_DATA = [
-  { label: 'Total Verified Numbers', value: '14,820', delta: '+124', icon: Database, color: 'text-emerald-400', isPositive: true },
-  { label: 'Daily Search Volume', value: '42,500', delta: '+5.2%', icon: Activity, color: 'text-[#00A3E0]', isPositive: true },
-  { label: 'AI Accuracy / Match Rate', value: '98.4%', delta: '+1.2%', icon: TrendingUp, color: 'text-emerald-400', isPositive: true },
-  { label: 'Failed / Escalated', value: '1.6%', delta: '-0.3%', icon: AlertTriangle, color: 'text-amber-400', isPositive: false, highlight: true },
-];
-
-const DIRECTORY_DATA = [
-  { id: 'DIR-892', nameEn: 'National Hospital Colombo', nameSi: 'ජාතික රෝහල කොළඹ', nameTa: 'தேசிய மருத்துவமனை கொழும்பு', category: 'Hospital Hotlines', number: '011 2 691 111', status: 'Verified', updated: 'Today, 10:24 AM', syncStatus: 'Synced' },
-  { id: 'DIR-893', nameEn: 'SLT RTO - Gampaha', nameSi: 'ශ්‍රී ලංකා ටෙලිකොම් - ගම්පහ', nameTa: 'ஸ்ரீலங்கா டெலிகொம் - கம்பஹா', category: 'RTO', number: '033 2 222 233', status: 'Pending Approval', updated: 'Yesterday, 04:15 PM', syncStatus: 'Syncing...' },
-  { id: 'DIR-894', nameEn: 'Police Emergency (Colombo)', nameSi: 'පොලිස් හදිසි ඇමතුම්', nameTa: 'பொலிஸ் அவசர பிரிவு', category: 'Emergency', number: '119', status: 'Verified', updated: 'Oct 12, 2026', syncStatus: 'Synced' },
-  { id: 'DIR-895', nameEn: 'Kurunegala Fire Station', nameSi: 'කුරුණෑගල ගිනි නිවන ඒකකය', nameTa: 'குருநாகல் தீயணைப்பு நிலையம்', category: 'Emergency', number: '037 2 222 222', status: 'Needs Audit', updated: 'Oct 05, 2026', syncStatus: 'Sync Failed' },
-  { id: 'DIR-896', nameEn: 'Ministry of Health Helpdesk', nameSi: 'සෞඛ්‍ය අමාත්‍යාංශය', nameTa: 'சுகாதார அமைச்சு', category: 'Public Services', number: '1999', status: 'Verified', updated: 'Oct 01, 2026', syncStatus: 'Synced' },
-];
+import { Search, Activity, User, Calendar, BarChart3, TrendingUp, AlertTriangle, PhoneCall, Star, FileText, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function AdminPage() {
-  const [isListening, setIsListening] = useState(false);
+  const [serviceId, setServiceId] = useState('');
+  const [date, setDate] = useState('2026-09-28');
+  const [reportVisible, setReportVisible] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
+
+  const handleSearch = () => {
+    if (!serviceId) return;
+    setIsSearching(true);
+    // Simulate API call
+    setTimeout(() => {
+      setIsSearching(false);
+      setReportVisible(true);
+    }, 1000);
+  };
 
   return (
-    <div className="flex-1 overflow-y-auto p-6 lg:p-8 bg-[#0F172A] text-slate-200">
-      <div className="max-w-[1600px] mx-auto space-y-6">
+    <div className="flex-1 overflow-y-auto p-6 lg:p-10 bg-[#0F172A] text-slate-200 min-h-full">
+      <div className="max-w-6xl mx-auto space-y-8">
         
-        {/* Top Search & Profile Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <h1 className="text-2xl font-bold text-white tracking-tight">Directory Management</h1>
-            <p className="text-sm text-slate-400 mt-1">Manage core directory schemas and vector embeddings.</p>
+        {/* Header */}
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold mb-3">
+            <Activity className="w-4 h-4" /> Admin Portal
           </div>
-          <div className="flex gap-3">
-            <div className="relative w-72 hidden md:block group">
-              <Search className="w-4 h-4 absolute left-3 top-2.5 text-slate-500" />
-              <input 
-                type="text" 
-                placeholder={isListening ? "Listening..." : "Global search..."}
-                className={`w-full pl-9 pr-10 py-2 bg-[#1E293B] border rounded-lg text-sm focus:outline-none transition-all text-slate-200 placeholder-slate-500 ${
-                  isListening 
-                    ? 'border-[#00A3E0] ring-1 ring-[#00A3E0] text-[#00A3E0]' 
-                    : 'border-slate-700/50 focus:border-[#00A3E0] focus:ring-1 focus:ring-[#00A3E0]'
-                }`}
-              />
-              <button 
-                onClick={() => setIsListening(!isListening)}
-                className={`absolute right-2 top-1.5 p-1 rounded transition-colors ${
-                  isListening 
-                    ? 'text-rose-400 bg-rose-400/10 animate-pulse' 
-                    : 'text-slate-500 hover:text-[#00A3E0] hover:bg-[#0F172A]'
-                }`}
-              >
-                <Mic className="w-4 h-4" />
-              </button>
+          <h1 className="text-3xl font-bold text-white tracking-tight">Agent Evaluation Audit</h1>
+          <p className="text-sm text-slate-400 mt-1">Search for an agent to view their daily AI evaluation report.</p>
+        </div>
+
+        {/* Search Bar */}
+        <div className="bg-[#1E293B] rounded-2xl p-6 border border-slate-700/50 shadow-lg">
+          <div className="flex flex-col md:flex-row gap-4 items-end">
+            <div className="flex-1 w-full">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Agent Service ID</label>
+              <div className="relative">
+                <User className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
+                <input 
+                  type="text" 
+                  placeholder="e.g. AGT-1024"
+                  value={serviceId}
+                  onChange={(e) => setServiceId(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-[#0F172A] border border-slate-700 rounded-xl text-white placeholder-slate-600 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                />
+              </div>
             </div>
-            <button className="px-4 py-2 bg-[#00A3E0] text-white rounded-lg text-sm font-semibold hover:bg-[#008bc0] transition-colors shadow-[0_0_15px_rgba(0,163,224,0.2)] flex items-center gap-2">
-              <Plus className="w-4 h-4" />
-              New Entity
+            
+            <div className="flex-1 w-full">
+              <label className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Select Date</label>
+              <div className="relative">
+                <Calendar className="absolute left-3 top-3 w-5 h-5 text-slate-500" />
+                <input 
+                  type="date"
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 bg-[#0F172A] border border-slate-700 rounded-xl text-white focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all"
+                />
+              </div>
+            </div>
+
+            <button 
+              onClick={handleSearch}
+              disabled={!serviceId || isSearching}
+              className="w-full md:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-500 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl shadow-[0_0_20px_rgba(37,99,235,0.3)] transition-all flex items-center justify-center gap-2"
+            >
+              {isSearching ? (
+                <><div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Auditing...</>
+              ) : (
+                <><Search className="w-5 h-5" /> View Report</>
+              )}
             </button>
           </div>
         </div>
 
-        {/* Top KPI Bento Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          {KPI_DATA.map((kpi, idx) => (
-            <div key={idx} className={`p-5 rounded-xl border ${kpi.highlight ? 'bg-[#1E293B] border-amber-500/30 shadow-[0_0_20px_rgba(245,158,11,0.05)]' : 'bg-[#1E293B] border-slate-700/50 shadow-sm'} flex flex-col relative overflow-hidden group`}>
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">{kpi.label}</span>
-                <kpi.icon className={`w-4 h-4 ${kpi.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
-              </div>
-              <div className="flex items-end justify-between">
-                <div className={`text-3xl font-bold tabular-nums tracking-tight ${kpi.highlight ? 'text-white' : 'text-slate-100'}`}>
-                  {kpi.value}
+        {/* Report View */}
+        <AnimatePresence>
+          {reportVisible && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="space-y-6"
+            >
+              {/* Profile Card */}
+              <div className="bg-gradient-to-r from-slate-800 to-[#1E293B] rounded-2xl p-6 border border-slate-700/50 flex items-center gap-6 shadow-xl relative overflow-hidden">
+                <div className="absolute right-0 top-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+                <div className="w-20 h-20 rounded-full bg-slate-900 border-4 border-slate-700 flex items-center justify-center shrink-0 shadow-inner z-10">
+                  <User className="w-10 h-10 text-slate-400" />
                 </div>
-                <div className={`text-xs font-bold flex items-center gap-0.5 mb-1 ${kpi.isPositive ? 'text-emerald-400' : 'text-emerald-400'}`}>
-                  {kpi.highlight ? <span className="text-amber-400">{kpi.delta}</span> : <span><ArrowUpRight className="w-3 h-3 inline" /> {kpi.delta}</span>}
+                <div className="z-10">
+                  <h2 className="text-2xl font-black text-white">{serviceId === 'AGT-1024' ? 'Gehan Jayawardana' : 'Agent ' + serviceId}</h2>
+                  <p className="text-sm font-medium text-slate-400">Service ID: {serviceId} • Inbound Support Team</p>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
 
-        {/* Central Data Grid (Directory Management) */}
-        <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 shadow-sm overflow-hidden flex flex-col h-[400px]">
-          <div className="p-4 border-b border-slate-700/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#1E293B]">
-            <h2 className="text-base font-bold text-slate-100">Core Directory Entities</h2>
-            <div className="flex gap-2">
-              <button className="px-3 py-1.5 bg-[#0F172A] border border-slate-700 text-slate-300 rounded text-xs font-medium hover:bg-slate-800 transition-colors flex items-center gap-1.5">
-                <Filter className="w-3 h-3" /> Filters
-              </button>
-              <button className="px-3 py-1.5 bg-[#0F172A] border border-slate-700 text-slate-300 rounded text-xs font-medium hover:bg-slate-800 transition-colors flex items-center gap-1.5">
-                <Download className="w-3 h-3" /> Export
-              </button>
-            </div>
-          </div>
-          
-          <div className="overflow-x-auto flex-1">
-            <table className="w-full text-left text-sm whitespace-nowrap">
-              <thead className="text-[11px] font-semibold text-slate-400 uppercase bg-[#0F172A]/50 border-b border-slate-700/50 sticky top-0 z-10">
-                <tr>
-                  <th className="px-6 py-3">ID / Entity Name</th>
-                  <th className="px-6 py-3">Category</th>
-                  <th className="px-6 py-3">Primary Contact</th>
-                  <th className="px-6 py-3">Status</th>
-                  <th className="px-6 py-3">Vector Sync</th>
-                  <th className="px-6 py-3 text-right">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-700/50">
-                {DIRECTORY_DATA.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-[#0F172A]/40 transition-colors group">
-                    <td className="px-6 py-3">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-mono text-slate-500">{row.id}</span>
-                        <div>
-                          <p className="font-bold text-slate-200 group-hover:text-[#00A3E0] transition-colors">{row.nameEn}</p>
-                          <p className="text-[10px] text-slate-500 font-sans" style={{ fontFamily: 'sans-serif' }}>{row.nameSi} • {row.nameTa}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-3 text-slate-400 text-xs">{row.category}</td>
-                    <td className="px-6 py-3 font-medium tabular-nums text-slate-300">{row.number}</td>
-                    <td className="px-6 py-3">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border
-                        ${row.status === 'Verified' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : ''}
-                        ${row.status === 'Pending Approval' ? 'bg-amber-500/10 text-amber-400 border-amber-500/20' : ''}
-                        ${row.status === 'Needs Audit' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : ''}
-                      `}>
-                        {row.status === 'Verified' && <CheckCircle className="w-3 h-3" />}
-                        {row.status === 'Pending Approval' && <Clock className="w-3 h-3" />}
-                        {row.status === 'Needs Audit' && <ShieldAlert className="w-3 h-3" />}
-                        {row.status}
+              {/* KPIs */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-[#1E293B] rounded-2xl p-6 border border-slate-700/50 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                    <BarChart3 className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Avg Score</p>
+                    <div className="text-3xl font-black text-white">90<span className="text-lg text-slate-500">%</span></div>
+                  </div>
+                </div>
+                <div className="bg-[#1E293B] rounded-2xl p-6 border border-slate-700/50 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                    <PhoneCall className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Total Calls</p>
+                    <div className="text-3xl font-black text-white">45</div>
+                  </div>
+                </div>
+                <div className="bg-[#1E293B] rounded-2xl p-6 border border-slate-700/50 flex items-center gap-4">
+                  <div className="w-14 h-14 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center">
+                    <Star className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Sentiment</p>
+                    <div className="text-2xl font-black text-white">Excellent</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Aggregated Insights */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Strengths */}
+                <div className="bg-[#1E293B] rounded-2xl p-6 border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.05)] relative overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-emerald-500"></div>
+                  <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2 mb-6">
+                    <TrendingUp className="w-5 h-5 text-emerald-400" /> Top Strengths (Daily Aggregated)
+                  </h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start gap-3 text-sm text-slate-300 font-medium">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                      Consistently followed the standard SLTMobitel greeting on 100% of calls.
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-300 font-medium">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                      Excellent cross-selling of Home Plus packages during Fibre inquiries.
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-300 font-medium">
+                      <CheckCircle2 className="w-5 h-5 text-emerald-500 shrink-0 mt-0.5" />
+                      Kept average hold times under 30 seconds.
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Weaknesses */}
+                <div className="bg-[#1E293B] rounded-2xl p-6 border border-rose-500/20 shadow-[0_0_30px_rgba(244,63,94,0.05)] relative overflow-hidden">
+                  <div className="absolute left-0 top-0 bottom-0 w-1 bg-rose-500"></div>
+                  <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2 mb-6">
+                    <AlertTriangle className="w-5 h-5 text-rose-400" /> Areas for Improvement (Alerts)
+                  </h3>
+                  <ul className="space-y-4">
+                    <li className="flex items-start gap-3 text-sm text-slate-300 font-medium bg-[#0F172A] p-4 rounded-xl border border-slate-700/50">
+                      <span className="w-6 h-6 rounded-full bg-rose-500/20 text-rose-400 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">1</span>
+                      <span>
+                        <strong className="text-slate-100 block mb-1">Data Collection Flags (x3):</strong>
+                        Missed asking for the exact street address during new connection feasibility checks.
                       </span>
-                    </td>
-                    <td className="px-6 py-3">
-                      <div className="flex items-center gap-1.5 text-[11px] text-slate-400 cursor-help relative group/tooltip">
-                        <Server className={`w-3.5 h-3.5 ${row.syncStatus === 'Synced' ? 'text-emerald-500' : row.syncStatus === 'Sync Failed' ? 'text-rose-500' : 'text-[#00A3E0] animate-pulse'}`} />
-                        {row.syncStatus}
-                        
-                        {/* Hover Modal */}
-                        <div className="absolute left-0 bottom-full mb-2 w-48 p-3 bg-[#0F172A] border border-slate-700 rounded-lg shadow-xl opacity-0 group-hover/tooltip:opacity-100 pointer-events-none transition-opacity z-20">
-                          <p className="text-xs font-semibold text-slate-300 mb-1">MongoDB Vector Sync</p>
-                          <p className="text-[10px] text-slate-500">Last attempt: {row.updated}</p>
-                          <p className="text-[10px] text-slate-400 mt-2 font-mono">Embedding ID: E-{row.id.split('-')[1]}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-3 text-right">
-                      <button className="text-slate-500 hover:text-white p-1 transition-colors">
-                        <MoreVertical className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    </li>
+                    <li className="flex items-start gap-3 text-sm text-slate-300 font-medium bg-[#0F172A] p-4 rounded-xl border border-slate-700/50">
+                      <span className="w-6 h-6 rounded-full bg-amber-500/20 text-amber-400 flex items-center justify-center shrink-0 font-bold text-xs mt-0.5">2</span>
+                      <span>
+                        <strong className="text-slate-100 block mb-1">Transfer Protocol (x1):</strong>
+                        Forgot to offer warm transfer to Kandy branch and only provided the number.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
-        {/* Bottom Split Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Left: Bar Chart */}
-          <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 shadow-sm p-5">
-            <h2 className="text-sm font-bold text-slate-100 mb-4">Query Volume by Language</h2>
-            <div className="space-y-4">
-              <div className="space-y-1">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-300">English / Singlish (EN)</span>
-                  <span className="text-white">50%</span>
-                </div>
-                <div className="w-full bg-[#0F172A] rounded-full h-2">
-                  <div className="bg-[#00A3E0] h-2 rounded-full" style={{ width: '50%' }}></div>
-                </div>
-              </div>
-              <div className="space-y-1">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-300">Sinhala (SI)</span>
-                  <span className="text-white">35%</span>
-                </div>
-                <div className="w-full bg-[#0F172A] rounded-full h-2">
-                  <div className="bg-emerald-400 h-2 rounded-full" style={{ width: '35%' }}></div>
-                </div>
-              </div>
-              <div className="space-y-1">
-                <div className="flex justify-between text-xs font-semibold">
-                  <span className="text-slate-300">Tamil (TA)</span>
-                  <span className="text-white">15%</span>
-                </div>
-                <div className="w-full bg-[#0F172A] rounded-full h-2">
-                  <div className="bg-amber-400 h-2 rounded-full" style={{ width: '15%' }}></div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right: Failed Searches Log */}
-          <div className="bg-[#1E293B] rounded-xl border border-slate-700/50 shadow-sm flex flex-col h-[200px]">
-            <div className="p-4 border-b border-slate-700/50 flex items-center justify-between">
-              <h2 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-500" />
-                Live Failed Searches Log
-              </h2>
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span>
-              </span>
-            </div>
-            <div className="flex-1 overflow-y-auto p-4 space-y-3">
-              <div className="flex items-start justify-between gap-4 p-3 bg-[#0F172A] rounded-lg border border-slate-700/50 group hover:border-slate-600 transition-colors">
-                <div>
-                  <p className="text-xs font-mono text-slate-400 mb-1">QID: 9942 • 2 mins ago</p>
-                  <p className="text-sm text-slate-200 font-medium">"nugegoda branch manager direct number ekak"</p>
-                </div>
-                <button className="px-2 py-1 bg-[#1E293B] border border-slate-600 text-slate-300 rounded text-[10px] font-semibold hover:bg-slate-700 hover:text-white transition-colors whitespace-nowrap opacity-0 group-hover:opacity-100">
-                  + Add to KB
-                </button>
-              </div>
-              
-              <div className="flex items-start justify-between gap-4 p-3 bg-[#0F172A] rounded-lg border border-slate-700/50 group hover:border-slate-600 transition-colors">
-                <div>
-                  <p className="text-xs font-mono text-slate-400 mb-1">QID: 9941 • 5 mins ago</p>
-                  <p className="text-sm text-slate-200 font-medium">"jaffna technical fault team head"</p>
-                </div>
-                <button className="px-2 py-1 bg-[#1E293B] border border-slate-600 text-slate-300 rounded text-[10px] font-semibold hover:bg-slate-700 hover:text-white transition-colors whitespace-nowrap opacity-0 group-hover:opacity-100">
-                  + Add to KB
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
       </div>
     </div>
