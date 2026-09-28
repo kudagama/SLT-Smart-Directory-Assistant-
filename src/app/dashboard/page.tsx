@@ -19,7 +19,7 @@ type CopilotSuggestion = {
 
 const sinhalaCallScript = [
   { delay: 1000, speaker: 'agent', text: 'ආයුබෝවන්! මම හිමාලි, මට පුළුවනි ඔබට සහය වන්න.' },
-  { delay: 4000, speaker: 'customer', text: 'මට Kandy Hospital එකේ අංකය දැනගන්න පුළුවන්ද?' },
+  { delay: 4000, speaker: 'customer', text: 'මට Kandy Bank of Ceylon ශාඛාවේ අංකය දැනගන්න පුළුවන්ද?' },
   { delay: 9000, speaker: 'agent', text: 'කරුණාකර රැඳී ඉන්න සර්/ මැඩම්.' },
   { delay: 13000, speaker: 'agent', text: 'රැඳීසිටියාට ස්තූතියි. අංකය 081 222 2222. වෙනත් යමක් දැනගැනීමට අවශ්‍යද?' },
   { delay: 19000, speaker: 'customer', text: 'නෑ, එච්චරයි. ස්තූතියි.' },
@@ -37,7 +37,7 @@ const englishCallScript = [
 
 const tamilCallScript = [
   { delay: 1000, speaker: 'agent', text: 'வணக்கம் ! நான் ஹிமாலி , என்னால் எவ்வகையில் உதவ முடியும்?' },
-  { delay: 4000, speaker: 'customer', text: 'நான் Kandy Bank of Ceylon இலக்கத்தை அறிய விரும்புகிறேன்.' },
+  { delay: 4000, speaker: 'customer', text: 'நான் Kandy General Hospital இலக்கத்தை அறிய விரும்புகிறேன்.' },
   { delay: 9000, speaker: 'agent', text: 'தயவு செய்து அழைப்பில் காத்திருங்கள். Sir / Madam.' },
   { delay: 13000, speaker: 'agent', text: 'அழைப்பில் காத்திருந்தமைக்கு நன்றி. இலக்கம் 081 222 2222. வேறேதும் தெரிந்து கொள்ள இருக்கிறதா? Sir / Madam.' },
   { delay: 19000, speaker: 'customer', text: 'இல்லை, நன்றி.' },
@@ -112,7 +112,7 @@ export default function DashboardPage() {
     const lowerText = text.toLowerCase();
     const newSuggestions: CopilotSuggestion[] = [];
 
-    if (lowerText.includes('hospital') || lowerText.includes('kandy')) {
+    if (lowerText.includes('hospital')) {
       newSuggestions.push({
         id: 'hospital-dir',
         type: 'intent',
@@ -126,7 +126,7 @@ export default function DashboardPage() {
       });
     }
 
-    if (lowerText.includes('broadband') || lowerText.includes('fibre') || lowerText.includes('ceylon')) {
+    if (lowerText.includes('broadband') || lowerText.includes('fibre')) {
       newSuggestions.push({
         id: 'fibre-product',
         type: 'product',
