@@ -376,13 +376,13 @@ export default function DashboardPage() {
                    <p className="text-sm font-bold text-[#005696] flex items-center justify-center gap-2"><PhoneCall className="w-4 h-4" /> Simulator Controls</p>
                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                      <button onClick={() => startCallSimulation('sinhala')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-600 hover:to-rose-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                       <Play className="w-3 h-3 fill-white" /> සිංහල Call
+                       <Play className="w-3 h-3 fill-white" /> සිංහල Directory
                      </button>
                      <button onClick={() => startCallSimulation('english')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                       <Play className="w-3 h-3 fill-white" /> English Call
+                       <Play className="w-3 h-3 fill-white" /> English Product
                      </button>
                      <button onClick={() => startCallSimulation('tamil')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
-                       <Play className="w-3 h-3 fill-white" /> தமிழ் Call
+                       <Play className="w-3 h-3 fill-white" /> தமிழ் Directory
                      </button>
                    </div>
                 </div>
@@ -397,7 +397,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     className="mt-8 mx-auto w-full max-w-lg bg-rose-400 border border-rose-500 rounded-xl p-5 shadow-lg z-20 text-center"
                   >
-                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'sinhala' ? 'Sinhala Call' : activeCallType === 'english' ? 'English Call' : 'Tamil Call'}</p>
+                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'sinhala' ? 'Sinhala Directory' : activeCallType === 'english' ? 'English Product' : 'Tamil Directory'}</p>
                     <p className="text-xs font-medium text-rose-900">Fronter: - CONTACT 0776165556 UID: Y9240901190037712</p>
                   </motion.div>
                 )}
