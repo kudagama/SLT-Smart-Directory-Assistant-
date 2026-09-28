@@ -1,8 +1,18 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Bot, Sparkles, AlertCircle, Phone, Copy, CheckCircle2, MapPin, X, MessageSquare } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Bot, Sparkles, AlertCircle, Phone, Copy, CheckCircle2, MapPin, X, MessageSquare, Flag, ExternalLink } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+
+type Message = {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  match?: any;
+  confidence?: number;
+};
+
 
 export default function CopilotChat() {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,7 +21,7 @@ export default function CopilotChat() {
     {
       id: '1',
       role: 'assistant',
-      content: 'Hello! I am your AI Copilot. Ask me to find any SLT contact in natural language (English, Sinhala, or Tamil).'
+      content: 'Hello! I am your AI Copilot. Ask me to find any SLT contact or get details about SLT products in natural language (English, Sinhala, or Tamil).'
     }
   ]);
   const [input, setInput] = useState("");
@@ -183,11 +193,22 @@ export default function CopilotChat() {
             <div className="p-4 border-t border-slate-200 bg-white">
               <div className="relative">
                 <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSend();
+                    }
+                  }}
                   className="w-full bg-slate-50 border border-slate-200 rounded-lg pl-3 pr-10 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[#005696]/20 focus:border-[#005696] resize-none h-12 transition-all"
                   placeholder="Type your query here..."
-                  readOnly
                 ></textarea>
-                <button className="absolute right-2 top-2.5 p-1 bg-[#005696] text-white rounded-md hover:bg-[#00407a] transition-colors">
+                <button 
+                  onClick={handleSend}
+                  disabled={isLoading || !input.trim()}
+                  className="absolute right-2 top-2.5 p-1 bg-[#005696] text-white rounded-md hover:bg-[#00407a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
                   <Sparkles className="w-4 h-4" />
                 </button>
               </div>
@@ -195,9 +216,6 @@ export default function CopilotChat() {
                 Copilot can make mistakes. Always verify critical escalations.
               </p>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+    </div>
   );
 }
