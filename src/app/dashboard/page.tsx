@@ -118,9 +118,30 @@ export default function DashboardPage() {
         type: 'intent',
         title: 'Directory Search: Kandy Hospital',
         content: (
-          <div className="space-y-2">
-            <p className="text-sm font-bold text-slate-800">Kandy General Hospital</p>
-            <p className="text-xs text-slate-600 flex items-center gap-1"><Phone className="w-3 h-3"/> 081 222 2222</p>
+          <div className="space-y-3">
+            <div className="bg-rose-50 border border-rose-100 rounded-xl p-4 shadow-sm relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-rose-500/5 rounded-bl-full pointer-events-none"></div>
+              <div className="flex items-center justify-between mb-3 relative z-10">
+                <span className="text-xs font-black text-rose-900 uppercase tracking-widest">Primary Contact</span>
+                <button className="text-rose-700 hover:text-rose-900"><Phone className="w-4 h-4" /></button>
+              </div>
+              <p className="text-3xl font-black text-rose-700 tracking-tight mb-1 relative z-10">081 222 2222</p>
+              <p className="text-xs font-medium text-rose-800 relative z-10">kgh@health.gov.lk</p>
+              
+              <div className="mt-4 pt-3 border-t border-rose-200/60 grid grid-cols-2 gap-3 relative z-10">
+                <div>
+                  <p className="text-[10px] font-bold text-rose-600/70 uppercase tracking-widest mb-1">Emergency</p>
+                  <p className="text-sm font-bold text-rose-800">081 222 2224</p>
+                </div>
+                <div>
+                  <p className="text-[10px] font-bold text-rose-600/70 uppercase tracking-widest mb-1">Fax Number</p>
+                  <p className="text-sm font-bold text-rose-800">081 222 2225</p>
+                </div>
+              </div>
+            </div>
+            <button className="w-full py-2.5 text-xs font-bold text-white bg-rose-600 border border-rose-700 rounded-lg shadow hover:bg-rose-700 transition-colors">
+              Transfer Call
+            </button>
           </div>
         )
       });
