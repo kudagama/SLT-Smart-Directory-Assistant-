@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { Search, Globe, User, HelpCircle, LayoutDashboard, Phone, Signal } from 'lucide-react';
+import { Search, Globe, User, HelpCircle, LayoutDashboard, Phone, Signal, Activity } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -83,6 +83,10 @@ export default function TopNavigation() {
           <Link href="/products" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
             <Globe className="w-4 h-4" />
             Products
+          </Link>
+          <Link href="/evaluations" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
+            <Activity className="w-4 h-4" />
+            Performance
           </Link>
           <Link href="/admin" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
             <LayoutDashboard className="w-4 h-4" />
