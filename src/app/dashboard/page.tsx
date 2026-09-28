@@ -232,11 +232,22 @@ export default function DashboardPage() {
           <div className="space-y-3">
             <div className="bg-emerald-50 border border-emerald-100 rounded-lg p-3">
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-emerald-900">Primary Contact</span>
-                <button className="text-emerald-700 hover:text-emerald-900"><Phone className="w-3 h-3" /></button>
+                <span className="text-xs font-bold text-emerald-900">Primary Contact (General)</span>
+                <button className="text-emerald-700 hover:text-emerald-900"><Phone className="w-4 h-4" /></button>
               </div>
-              <p className="text-lg font-black text-emerald-700">081 222 2222</p>
-              <p className="text-xs text-emerald-800 mt-1">boc.kandy@boc.lk</p>
+              <p className="text-2xl font-black text-emerald-700 tracking-tight">081 222 2222</p>
+              <p className="text-xs text-emerald-800 mt-1 mb-3">boc.kandy@boc.lk</p>
+              
+              <div className="border-t border-emerald-200/60 pt-2 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-emerald-800">WhatsApp / Direct</span>
+                  <p className="text-sm font-bold text-emerald-700">077 123 4567</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-emerald-800">Fax (Branch Manager)</span>
+                  <p className="text-sm font-bold text-emerald-700">081 222 2223</p>
+                </div>
+              </div>
             </div>
             <button className="w-full py-2 text-xs font-bold text-emerald-700 bg-emerald-100 border border-emerald-200 rounded-md hover:bg-emerald-200 transition-colors">
               Transfer Call
