@@ -18,21 +18,23 @@ type CopilotSuggestion = {
 };
 
 const productCallScript = [
-  { delay: 1000, speaker: 'customer', text: 'Hello, is this Sri Lanka Telecom?' },
-  { delay: 3000, speaker: 'agent', text: 'Yes, good morning! How can I help you today?' },
-  { delay: 6500, speaker: 'customer', text: 'I am looking to get a new broadband connection. I heard about SLT Fibre.' },
-  { delay: 10000, speaker: 'agent', text: 'Great choice! SLT Fibre provides ultra-fast speeds. May I know your location to check coverage?' },
-  { delay: 15000, speaker: 'customer', text: 'I am from Nugegoda. Also, what are the prices for the unlimited data packages?' },
-  { delay: 20000, speaker: 'agent', text: 'Let me check the coverage in Nugegoda and the unlimited packages for you right now.' },
+  { delay: 1000, speaker: 'agent', text: "Ayubowan, I'm Gehan, how may I help you?" },
+  { delay: 4000, speaker: 'customer', text: 'Hello, I am looking to get a new broadband connection. I heard about SLT Fibre.' },
+  { delay: 9000, speaker: 'agent', text: 'Great choice! May I know your location to check coverage?' },
+  { delay: 13000, speaker: 'customer', text: 'I am from Nugegoda. What are the prices for the unlimited data packages?' },
+  { delay: 18000, speaker: 'agent', text: 'Please hold on while I check the coverage and packages for Nugegoda.' },
+  { delay: 22000, speaker: 'agent', text: 'Thank you for being on hold. Coverage is available, and packages start at Rs. 4,490. Is there anything else I can help with you?' },
+  { delay: 28000, speaker: 'customer', text: 'No, that is all. Thanks!' },
+  { delay: 31000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLTMobitel, have a nice day.' }
 ];
 
 const directoryCallScript = [
-  { delay: 1000, speaker: 'customer', text: 'Hello, I need a contact number.' },
-  { delay: 3000, speaker: 'agent', text: 'Good morning! I can help with that. Whose contact number are you looking for?' },
-  { delay: 6500, speaker: 'customer', text: 'I want the number for the Bank of Ceylon, Kandy branch.' },
-  { delay: 10000, speaker: 'agent', text: 'Sure, Bank of Ceylon Kandy branch. Please hold on a moment while I check the directory.' },
-  { delay: 14000, speaker: 'customer', text: 'Also, can you give me their email address if it is there?' },
-  { delay: 18000, speaker: 'agent', text: 'I am pulling up the details right now. I will provide both the phone number and email.' },
+  { delay: 1000, speaker: 'agent', text: "Ayubowan, I'm Gehan, how may I help you?" },
+  { delay: 4000, speaker: 'customer', text: 'Hello, I want the number for the Bank of Ceylon, Kandy branch.' },
+  { delay: 9000, speaker: 'agent', text: 'Sure, Bank of Ceylon Kandy branch. Please hold on.' },
+  { delay: 13000, speaker: 'agent', text: 'Thank you for being on hold. The number is 081 222 2222 and email is boc.kandy@boc.lk. Is there anything else I can help with you?' },
+  { delay: 20000, speaker: 'customer', text: 'No, that is enough. Thank you.' },
+  { delay: 23000, speaker: 'agent', text: 'Please hold on to rate my service. Thank you for calling SLTMobitel, have a nice day.' }
 ];
 
 export default function DashboardPage() {
