@@ -41,6 +41,7 @@ const directoryCallScript = [
 
 export default function DashboardPage() {
   const [callActive, setCallActive] = useState(false);
+  const [activeCallType, setActiveCallType] = useState<'product' | 'directory' | null>(null);
   const [transcript, setTranscript] = useState<TranscriptMessage[]>([]);
   const [suggestions, setSuggestions] = useState<CopilotSuggestion[]>([]);
   const [callTimer, setCallTimer] = useState(0);
@@ -59,6 +60,7 @@ export default function DashboardPage() {
 
   const startCallSimulation = (type: 'product' | 'directory') => {
     setCallActive(true);
+    setActiveCallType(type);
     setTranscript([]);
     setSuggestions([]);
     setCallTimer(0);
@@ -85,6 +87,7 @@ export default function DashboardPage() {
 
   const endCall = () => {
     setCallActive(false);
+    setActiveCallType(null);
     if (timerRef.current) clearInterval(timerRef.current);
     scriptTimers.current.forEach(timer => clearTimeout(timer));
     scriptTimers.current = [];
@@ -365,15 +368,15 @@ export default function DashboardPage() {
 
               {/* Floating Incoming Call Banner */}
               <AnimatePresence>
-                {callActive && callTimer < 5 && (
+                {callActive && (
                   <motion.div 
                     initial={{ opacity: 0, y: -10, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.95 }}
-                    className="mt-8 mx-auto w-full max-w-lg bg-emerald-400 border border-emerald-500 rounded-xl p-5 shadow-lg z-20 text-center"
+                    className="mt-8 mx-auto w-full max-w-lg bg-rose-400 border border-rose-500 rounded-xl p-5 shadow-lg z-20 text-center"
                   >
-                    <p className="text-sm font-bold text-emerald-950 mb-1">Incoming: (077)616-5556 Group- Sinhala Products</p>
-                    <p className="text-xs font-medium text-emerald-900">Fronter: - CONTACT 0776165556 UID: Y9240901190037712</p>
+                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'directory' ? 'English Directory' : 'English Products'}</p>
+                    <p className="text-xs font-medium text-rose-900">Fronter: - CONTACT 0776165556 UID: Y9240901190037712</p>
                   </motion.div>
                 )}
               </AnimatePresence>
