@@ -39,7 +39,7 @@ export default function LoginPage() {
               SLT
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight">Smart Directory</h1>
+              <h1 className="text-2xl font-bold tracking-tight">Smart PEARL</h1>
               <p className="text-sm text-cyan-200 font-medium">Enterprise Copilot</p>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default function LoginPage() {
               SLT
             </div>
             <div>
-              <h1 className="text-xl font-bold text-slate-900 tracking-tight">Smart Directory</h1>
+              <h1 className="text-xl font-bold text-slate-900 tracking-tight">Smart PEARL</h1>
             </div>
           </div>
 

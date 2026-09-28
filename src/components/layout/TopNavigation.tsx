@@ -28,7 +28,7 @@ export default function TopNavigation() {
           SLT
         </Link>
         <div>
-          <h1 className="text-sm font-bold text-slate-900 leading-tight">Smart Directory</h1>
+          <h1 className="text-sm font-bold text-slate-900 leading-tight">Smart PEARL</h1>
           <p className="text-[10px] text-slate-500 font-medium leading-none">Contact Center Assistant</p>
         </div>
         
@@ -78,7 +78,7 @@ export default function TopNavigation() {
         <nav className="hidden md:flex items-center gap-4 mr-2">
           <Link href="/dashboard" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
             <Search className="w-4 h-4" />
-            Directory
+            PEARL
           </Link>
 
           <Link href="/evaluations" className="text-sm font-medium text-slate-600 hover:text-[#005696] transition-colors flex items-center gap-1.5">
