@@ -44,9 +44,19 @@ const tamilCallScript = [
   { delay: 22000, speaker: 'agent', text: 'இந்த அழைப்பை மதிப்பீடு செய்ய தயவு செய்து காத்திருங்கள். SLT Mobitel அழைத்தமைக்கு நன்றி இந்த நாள் இனிய நாளாக அமையட்டும்.' }
 ];
 
+const incrementalDirScript = [
+  { delay: 1000, speaker: 'agent', text: 'Ayubowan! I am Kasun. How may I help you?' },
+  { delay: 4000, speaker: 'customer', text: 'I want the contact number for the Bank of Ceylon...' },
+  { delay: 8000, speaker: 'customer', text: '...the Kandy branch, please.' },
+  { delay: 11000, speaker: 'agent', text: 'Please hold on Sir/Madam while I check the details.' },
+  { delay: 14000, speaker: 'agent', text: 'The number for BOC Kandy is 081 222 2222. Is there anything else?' },
+  { delay: 18000, speaker: 'customer', text: 'No, that is all.' },
+  { delay: 21000, speaker: 'agent', text: 'Thank you for calling SLT Mobitel. Have a nice day!' }
+];
+
 export default function DashboardPage() {
   const [callActive, setCallActive] = useState(false);
-  const [activeCallType, setActiveCallType] = useState<'sinhala' | 'english' | 'tamil' | null>(null);
+  const [activeCallType, setActiveCallType] = useState<'sinhala' | 'english' | 'tamil' | 'incremental' | null>(null);
   const [transcript, setTranscript] = useState<TranscriptMessage[]>([]);
   const [suggestions, setSuggestions] = useState<CopilotSuggestion[]>([]);
   const [callTimer, setCallTimer] = useState(0);
@@ -63,7 +73,7 @@ export default function DashboardPage() {
     }
   }, [transcript]);
 
-  const startCallSimulation = (type: 'sinhala' | 'english' | 'tamil') => {
+  const startCallSimulation = (type: 'sinhala' | 'english' | 'tamil' | 'incremental') => {
     setCallActive(true);
     setActiveCallType(type);
     setTranscript([]);
@@ -75,7 +85,7 @@ export default function DashboardPage() {
       setCallTimer(prev => prev + 1);
     }, 1000);
 
-    const activeScript = type === 'sinhala' ? sinhalaCallScript : type === 'english' ? englishCallScript : tamilCallScript;
+    const activeScript = type === 'sinhala' ? sinhalaCallScript : type === 'english' ? englishCallScript : type === 'incremental' ? incrementalDirScript : tamilCallScript;
 
     // Schedule transcript messages
     activeScript.forEach((step) => {
@@ -142,6 +152,25 @@ export default function DashboardPage() {
             <button className="w-full py-2.5 text-xs font-bold text-white bg-rose-600 border border-rose-700 rounded-lg shadow hover:bg-rose-700 transition-colors">
               Transfer Call
             </button>
+          </div>
+        )
+      });
+    }
+
+    if (lowerText.includes('contact number for the bank of ceylon')) {
+      newSuggestions.push({
+        id: 'partial-dir',
+        type: 'intent',
+        title: 'Intent Detected: Bank of Ceylon',
+        content: (
+          <div className="flex items-start gap-3">
+            <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0">
+              <AlertTriangle className="w-4 h-4 text-amber-600" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-slate-800">Bank of Ceylon</p>
+              <p className="text-xs text-slate-500 mt-1">Found 310 branches. Waiting for customer to specify location...</p>
+            </div>
           </div>
         )
       });
@@ -248,7 +277,7 @@ export default function DashboardPage() {
     }
 
     // Directory Call Keywords
-    if (lowerText.includes('bank of ceylon') || lowerText.includes('kandy branch')) {
+    if (lowerText.includes('bank of ceylon') && !lowerText.includes('contact number for the bank of ceylon') || lowerText.includes('kandy branch')) {
       newSuggestions.push({
         id: 'dir-boc-kandy',
         type: 'action',
@@ -421,6 +450,9 @@ export default function DashboardPage() {
                      <button onClick={() => startCallSimulation('tamil')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
                        <Play className="w-3 h-3 fill-white" /> தமிழ் Directory
                      </button>
+                     <button onClick={() => startCallSimulation('incremental')} className="w-full sm:w-auto px-5 py-2.5 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white rounded-lg font-bold text-xs shadow-md transition-all active:scale-95 flex items-center justify-center gap-2">
+                       <Play className="w-3 h-3 fill-white" /> Interactive Dir
+                     </button>
                    </div>
                 </div>
               )}
@@ -434,7 +466,7 @@ export default function DashboardPage() {
                     exit={{ opacity: 0, scale: 0.95 }}
                     className="mt-8 mx-auto w-full max-w-lg bg-rose-400 border border-rose-500 rounded-xl p-5 shadow-lg z-20 text-center"
                   >
-                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'sinhala' ? 'Sinhala Directory' : activeCallType === 'english' ? 'English Product' : 'Tamil Directory'}</p>
+                    <p className="text-sm font-bold text-rose-950 mb-1">Incoming: (077)616-5556 Group- {activeCallType === 'sinhala' ? 'Sinhala Directory' : activeCallType === 'english' ? 'English Product' : activeCallType === 'incremental' ? 'Interactive Directory' : 'Tamil Directory'}</p>
                     <p className="text-xs font-medium text-rose-900">Fronter: - CONTACT 0776165556 UID: Y9240901190037712</p>
                   </motion.div>
                 )}
