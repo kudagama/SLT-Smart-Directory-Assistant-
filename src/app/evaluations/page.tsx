@@ -138,7 +138,7 @@ export default function EvaluationsPage() {
               <div>
                 <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Total Calls</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-black text-slate-800">{calls.length}</span>
+                  <span className="text-4xl font-black text-slate-800">105</span>
                 </div>
               </div>
             </div>
